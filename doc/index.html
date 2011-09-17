@@ -1,0 +1,191 @@
+<html>
+<head>
+    <title>Kokua - Trade Wars Assistant</title>
+</head>
+<body>
+    <center>
+        <h2>Kokua - Trade Wars Assistant</h2>
+        <a href="#features">Features</a> |
+        <a href="#status">Status</a> |
+        <a href="#usage">Usage</a> |
+        Download <!--- <a href="kokua.jnlp">WebStart</a>, -->
+        <a href="http://sourceforge.net/project/showfiles.php?group_id=30183&package_id=124987">SF</a> |
+        <a href="api/index.html">JavaDocs</a> |
+        <a href="http://sf.net/projects/twdata">Project Site</a> |
+        <!--<a href="../kokua-bot">Kokua Bot</a> |-->
+        <a href="mailto:mrdon@twdata.org">Feedback</a>
+    </center>
+    <a name="overview" />
+    <br />
+    <center>
+        <a href="screenshots/kokua-all.png"><img alt="Screenshot" src="screenshots/kokua-all.png" width="300"/></a>
+        <br />
+        <a href="screenshots.html">More Screenshots</a>
+    </center>
+    <h3>Overview</h3>
+        <p>
+        Kokua is a <a href="http://www.eisonline.com">Trade Wars 2002</a> assistant with the goal of being very easy for the user to customize for their use.  Every screen is defined in user-modifiable <a href="http://www.swixml.org">XML user interface</a> files similiar to HTML.  All actions are written in JavaScript, the scripting language of web pages, eliminating the difference between scripts and normal application behaviors.  The initial emphasis of the project is to explore visualization and data mining.
+        </p>
+        <p>
+        Kokua was born out of a desire for an open source, Linux-compatible TW2002 helper, and a frustration working with the <a href="http://sf.net/projects/jtwat">J-TWAT</a> source code.  J-TWAT was/is a great helper, but in an effort to build the ultimate helper, code organization was sacrificed to make way for development speed making it difficult to build upon.  While Kokua borrowed many of the ideas of J-TWAT (like stream lexing triggers), Kokua is a complete rewrite.  To encourage development, pains have been taken to cleanly separate functionality and push as much code into external scripts as possible.  While JavaScript is used by default, many other scripting languages can be used.  Furthermore, all Trade Wars-related code has been separated from the main application to support other text-based games or applications.
+        </p>
+        <p>
+        Kokua is <strong>NOT</strong> an attempt to create the ultimate TW2002 helper or scripting platform.  In fact, it has been built to work
+        explictly with <a href="http://www.twxproxy.com">TWXProxy</a> (latest version at <a href="http://code.google.com/p/twxproxy-ep">Google Code</a>.
+        Other helpers, like SWATH, have way more features than Kokua will probably ever have.  In particular, Kokua does not focus on scripting, leaving that to the faster
+        and more capable TWXProxy.  Not that I'm against the idea of a fully-featured TW helper, I just don't have time or motivation.  
+        </p>
+    <a name="features" />
+    <h3>Features</h3>
+        <ul>
+          <li>One click pair trading and SSM execution</li>
+          <li>Easy to fully customize every screen</li>
+          <li>Every application action modifyable, eliminating the difference between script and application action</li>
+          <li>Browsable, customizable sector visualization</li>
+          <li>Quick query of information using an <a href="http://jakarta.apache.org/commons/jxpath/index.html">XPath-like engine</a></li>
+          <li>Statistics display to highlight game metrics</li> 
+          <li>Easy macro record and playback ability</li>
+          <li>Customizable reports, including port pairs</li>
+          <li>Scripts can create and control complex gui forms</li>
+          <li>TWXProxy support</li>
+        </ul>  
+     <a name="status" />
+     <h3>Status</h3>
+        <p>
+        <span style="color:red">This code is still in the early stages of development and is not meant for actual use.  Use at your own risk</span>
+        </p>
+        <p>In the meantime, the following capabilies are either completed, in progress, or planned:
+        </p>
+        <table border="1">
+          <tr>
+            <th>Feature</th>
+            <th>Status</th>
+          </tr>
+          <tr>
+            <td>Terminal emulation</td>
+            <td>Since 0.1</td>
+          </tr>
+          <tr>
+            <td>Multi-session support</td>
+            <td>Since 0.3</td>
+          </tr>
+          <tr>
+            <td>Macros</td>
+            <td>Since 0.1.  Can record, stop, and replay</td>
+          </tr>
+          <tr>
+            <td>Scripting support</td>
+            <td>In progress.  Currently, scripts can be written in JavaScript and display XUL forms.  Use TWXProxy for real scripts.</td>
+          </tr>
+          <tr>
+            <td>Status display</td>
+            <td>Since 0.1</td>
+          </tr>
+          <tr>
+            <td>Text parsing</td>
+            <td>In progress.  Most obvious information is gathered, but much more needs to be scraped</td>
+          </tr>
+          <tr>
+            <td>Sector visualization</td>
+            <td>Since 0.2  Sectors can be customized by embedding attributes in the sector notes and using popup menu.  Needs a lot more work to be
+            really usable.</td>
+          </tr>
+          <tr>
+            <td>In-game chat</td>
+            <td>Since 0.4.  Fedspace and subspace work fine, still working on private messages.</td>
+          </tr>
+          <tr>
+            <td>TWXProxy integration</td>
+            <td>Tested as of 0.4.  Buttons on the toolbar script common TWXProxy script executions, and TWXProxy 2.0.4 comes with the Kokua
+            distribution.  Yes, TWXProxy can run in Linux with Wine.
+            </td>
+          </tr>
+          <tr>
+            <td>Data storage</td>
+            <td>Since 0.1.  Data is stored as serialized objects, but backed up as xml.  When a new build is discovered, the data is loaded from the xml backups.</td>
+          </tr>
+          <tr>
+            <td>In Game Help</td>
+            <td>Since 0.5.  Currently only game guides, but will add Kokua usage help if ever a need.
+          </tr>
+        </table>  
+        <p>
+            <b>Version 0.7 - June 16, 2007</b>
+            <ul>
+              <li>Added terminal sector linking</li>
+              <li>Added radial menus to sector linking</li>
+            </ul>
+            <b>Version 0.6.2 - June 11, 2007</b>
+            <ul>
+              <li>Added scroll wheel support for terminal</li>
+              <li>Improved map to better store and display newly modified data</li>
+              <li>Fixed sector map to properly support background and
+              foreground colors</li>
+            </ul>
+            <b>Version 0.6.1 - June 10, 2007</b>
+            <ul>
+              <li>Fixed broken backup system that wasn't extracting resources to the Kokua directory on startup</li>
+            </ul>
+            <b>Version 0.6 - June 9, 2007</b>
+            <ul>
+              <li>Added one click Pair Trading and Steal-Steal-Move (SSM) execution (scripts TWXProxy)</li>
+              <li>Fixed quite a few stability issues with the lexing and data storage</li>
+              <li>Added capture of bust information</li>
+              <li>Contains TWXProxy</li>
+              <li>Fixed sector map to be more stable and accurate</li>
+            </ul>
+            <b>Version 0.5 - August 14, 2004</b>
+            <ul>
+              <li>Sector map editable and nagivatable by popup menu</li>
+              <li>Added in-game help system containing game playing guides (thanks eleqtrizit for the content)</li>
+              <li>Added xxb port cluster report</li>
+              <li>Added sector graph to provide distance data, Added related scripting methods</li>
+              <li>Added improved report table including column sorting</li>
+              <li>Other fixes and small improvements</li>
+            </ul>
+            <b>Version 0.4 - August 8, 2004</b>
+            <ul>
+              <li>Added chat functionality for fedcom and subspace</li>
+              <li>Improved data gathering</li>
+              <li>Added display of sector notes</li>
+              <li>Added ability to customize sector map by embedding hints in sector notes</li>
+              <li>Added port pair reports</li>
+              <li>Added ability to completely delete sessions</li>
+              <li>Improved scripting support</li>
+              <li>Fixed a number of stability issues and bugs</li>
+            </ul>
+            <b>Version 0.3 - August 1, 2004</b>
+            <ul>
+              <li>Added multi-session support.</li>
+              <li>Increased stability</li>
+              <li>Minor GUI and internal improvements</li>
+            </ul>
+            <b>Version 0.2 - July 31, 2004</b>
+            <ul>
+              <li>Added quick query bar - support for XPath and JavaScript expressions</li>
+              <li>Fixed bug with planets added multiple times</li>
+              <li>Added sector detail panel in sector map</li>
+              <li>Changed sector map layout to static tree layout</li>
+              <li>Started work on chat interface - not completed</li>
+              <li>Added statistics panel which computes a couple of interesting metrics</li>
+              <li>Improved look and feel of app</li>
+              <li>Many internal changes</li>
+            </ul>
+            <b>Version 0.1 - July 25, 2004</b>
+            <ul>
+                <li>Initial development release</li>
+            </ul>    
+        </p>
+      <a name="usage">
+      <h3>Usage</h3>
+        <p>
+            Kokua requires Java 5 or greater to be installed.  <!--The easiest way to run Kokua is to use <a
+            href="http://java.sun.com/products/javawebstart/">Java WebStart</a>, which should be automatically installed in your web browser by the Java
+            installation process.  Just click on the <a href="kokua.jnlp">Kokua WebStart link</a> and the program should automatically download and
+            install itself.-->
+        </p>
+        <p>
+            Kokua comes as a completely self-contained jar file.  For Windows users that have Java 5 installed, you should be able to just double-click on the file to run it.  You can also execute the jar by running "java -jar kokua-VERSION-standalone.jar" at a command prompt where VERSION is the version you downloaded.
+        </p>
+       </body>
+       </html>

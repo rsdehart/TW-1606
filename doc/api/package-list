@@ -1,0 +1,17 @@
+org.twdata.kokua
+org.twdata.kokua.action
+org.twdata.kokua.data
+org.twdata.kokua.gui
+org.twdata.kokua.script
+org.twdata.kokua.script.flow
+org.twdata.kokua.script.flow.javascript
+org.twdata.kokua.signal
+org.twdata.kokua.tw
+org.twdata.kokua.tw.data
+org.twdata.kokua.tw.graph
+org.twdata.kokua.tw.gui
+org.twdata.kokua.tw.gui.chat
+org.twdata.kokua.tw.gui.terminal
+org.twdata.kokua.tw.model
+org.twdata.kokua.tw.signal
+org.twdata.kokua.util

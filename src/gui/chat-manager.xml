@@ -1,0 +1,40 @@
+<tabbedpane constraints="BorderLayout.CENTER">
+    <chat-tab id="fed" name="Federation comm-link" layout="borderlayout" type="fedcom">
+        <splitpane name="div" constraints="BorderLayout.CENTER" 
+                   oneTouchExpandable="true" dividerLocation="1400" orientation="VERTICAL">
+            <scrollpane>
+                <textpane background="black" foreground="white" name="text" editable="false" text=""/>
+            </scrollpane>
+            <scrollpane>
+                <list background="black" foreground="white" name="users" />
+            </scrollpane>
+        </splitpane>
+        <textfield background="black" foreground="white" caretColor="white" name="input" constraints="BorderLayout.SOUTH" enabled="false" />
+    </chat-tab>
+    <chat-tab id="sub" name="Subspace radio" layout="borderlayout" type="subspace">
+        <splitpane name="div" constraints="BorderLayout.CENTER" 
+                   oneTouchExpandable="true" dividerLocation="1400" orientation="VERTICAL">
+            <scrollpane>
+                <textpane background="black" foreground="white" name="text" editable="false" text=""/>
+            </scrollpane>
+            <scrollpane>
+                <list background="black" foreground="white" name="users" />
+            </scrollpane>
+        </splitpane>
+        <textfield background="black" foreground="white" caretColor="white" name="input" constraints="BorderLayout.SOUTH" enabled="false" />
+    </chat-tab>
+    <!--
+    <chat-tab id="priv" name="Private channel" layout="borderlayout" type="private">
+        <splitpane name="div" constraints="BorderLayout.CENTER" 
+                   oneTouchExpandable="true" dividerLocation="1400" orientation="VERTICAL">
+            <scrollpane>
+                <textpane background="black" foreground="white" name="text" editable="false" text=""/>
+            </scrollpane>
+            <scrollpane>
+                <list background="black" foreground="white" name="users" />
+            </scrollpane>
+        </splitpane>
+        <textfield background="black" foreground="white" caretColor="white" name="input" constraints="BorderLayout.SOUTH" enabled="false"/>
+    </chat-tab>
+    -->
+</tabbedpane>

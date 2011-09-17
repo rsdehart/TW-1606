@@ -1,0 +1,75 @@
+<actions>
+    <global>
+        socket = tw1606.getBean("socket");
+        terminal = tw1606.getBean("terminal");
+        status = tw1606.getBean("status-bottom");
+        dm = tw1606.getBean("dao-manager");
+        bus = tw1606.getBean("message-bus");
+        session = tw1606.getBean("session");
+        sesDao = dm.getDao("session");
+        var ses;
+        
+        function switchSession() {
+            var name = gui.sessionName.getSelectedItem();
+            var ses = sesDao.get(name, true);
+            gui.host.setText(ses.host);
+            gui.port.setText(ses.port);
+        };
+        function setSession() {
+            var name = gui.sessionName.getSelectedItem();
+            var ses = sesDao.get(name, true);
+            ses.host = gui.host.getText();
+            ses.port = gui.port.getText();
+            sesDao.update(ses);
+        }
+        function delSession() {
+            var name = gui.sessionName.getSelectedItem();
+            var ses = sesDao.get(name, true);
+            sesDao.remove(ses);
+            gui.sessionName.getModel().removeElement(name);
+        }
+        
+        function connect() {
+            function doConnect() { 
+                    status.setGeneralStatus("Connecting to "+url+"...");
+                    try {
+                        socket.connect(url, port);
+                    } catch (ex) {
+                        terminal.printString("Sorry, Could not connect to: " + url + ":" + port + "\r\n");
+                        terminal.printString("Reason: " + ex + "\r\n\r\n") ;
+                    }
+            }
+            obj = new Object();
+            obj.prototype = this;
+            obj.status = status;
+            obj.terminal = terminal;
+            obj.socket = socket;
+            obj.run = doConnect;   
+            obj.url = gui.host.getText();
+            obj.port = gui.port.getText();
+            //obj.gameNumber = gui.gameNumber.getText();
+            //obj.sectors = gui.sectors.getText();
+            r = new java.lang.Runnable(obj);
+            t = new java.lang.Thread(r);
+            t.start();      
+            ses = sesDao.get(gui.sessionName.getSelectedItem(), true);
+            bus.broadcast(new SessionStatusSignal(SessionStatusSignal.START_REQUEST, ses));
+        }
+    </global>
+    <action id="connect" onConnect="action.setEnabled(false);" onDisconnect="action.setEnabled(true)" enabled="true">
+        gui = new Dialog(tw1606, "/gui/connection-dialog.xml");
+        var model = gui.sessionName.model;
+        var sessions = sesDao.getAll().toArray();
+        for (var x=0; x &lt; sessions.length; x++) {
+            if (sessions[x].getName() != null) {
+                model.addElement(sessions[x].getName());
+            }
+        }    
+        gui.jdialog.pack();
+        gui.show();
+    </action>
+    <action id="disconnect" onConnect="action.setEnabled(true);" onDisconnect="action.setEnabled(false);" enabled="false">
+        bus.broadcast(new SessionStatusSignal(SessionStatusSignal.STOP, ses));
+        socket.disconnect();
+    </action>
+</actions>    

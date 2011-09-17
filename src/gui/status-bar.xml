@@ -1,0 +1,5 @@
+<panel border="EmptyBorder(2,0,0,0)" layout="GridLayout(1,0,0,0)">
+    <panel border="BevelBorder(1)" layout="GridLayout(1,0,0,0)" >
+            <label id="generalStatus" text="Status" border="EmptyBorder(0,2,0,0)"/>
+    </panel>        
+</panel>

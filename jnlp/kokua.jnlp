@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jnlp
+  spec="1.0+"
+  codebase="http://www.twdata.org/kokua"
+  href="kokua.jnlp">
+  <information>
+    <title>Kokua - Trade Wars Assistant</title>
+    <vendor>Don Brown</vendor>
+    <homepage href="index.html"/>
+    <description>Kokua Trade wars Assistant</description>
+    <description kind="short">A demo of the capabilities of the Swing Graphical User Interface.</description>
+    <icon href="icons/turtle_16.jpg"/>
+    <offline-allowed/>
+  </information>
+  <security>
+      <all-permissions/>
+  </security>
+  <resources>
+    <j2se version="1.4"/>
+    <jar href="kokua.jar"/>
+    <jar href="jopt.jar"/>
+    <jar href="jta20.jar"/>
+    <jar href="bsf.jar"/>
+    <jar href="JSX.jar"/>
+  </resources>
+  <application-desc main-class="org.twdata.kokua.Main"/>
+</jnlp> 

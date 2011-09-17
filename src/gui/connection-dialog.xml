@@ -1,0 +1,27 @@
+<dialog title="Connect to Server" modal="true" layout="BorderLayout">
+
+<vbox constraints="BorderLayout.CENTER" border="EmptyBorder(10,10,10,10)">
+    <panel >
+        <label text="Session" />
+        <combobox id="sessionName" editable="true" onChange="switchSession();"/>
+        <button id="delSession" label="Remove" onClick="delSession();" />
+    </panel>
+    <panel >
+        <label text="Server" />
+        <textfield id="host" text="" columns="20"/>
+        <label text="Port" />
+        <textfield id="port" text="23" columns="4"/>
+    </panel>
+    <panel >
+        <label text="Game" />
+        <textfield id="gameNumber" text="" columns="1"/>
+        <label text="Sectors" />
+        <textfield id="sectors" text="2000" columns="5"/>
+    </panel>
+</vbox>    
+    <panel constraints="BorderLayout.SOUTH">
+        <button id="cancel" label="Cancel" onClick="dialog.dispose();"/>
+        <button id="ok" label="Ok" onClick="setSession();connect();dialog.dispose();" />
+    </panel>
+</dialog>
+

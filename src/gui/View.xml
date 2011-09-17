@@ -1,0 +1,119 @@
+<view-frame id="frame" title="TW1606 - Trade Wars Assistant" iconImage="icons/turtle_16.gif"> 
+<menubar id="mb"> 
+<menu text="File">
+  <menuitem text="Connect" icon="icons/connect.gif" mnemonic="VK_N" Action="connect" />
+  <menuitem text="Disconnect" icon="icons/disconnect.gif" mnemonic="VK_O" Action="disconnect" />
+  <separator />
+  <menuitem text="Capture..." icon="icons/open.gif" mnemonic="VK_C" Action="capture_start" />
+  <menuitem text="Stop Capture" mnemonic="VK_S" Action="capture_stop" />
+  <!--
+  <menuitem text="Reset Helper" mnemonic="VK_S" Action="reset" />
+
+  <separator />
+  
+  <menuitem text="Open Game" icon="icons/open.gif" mnemonic="VK_O" Action="openGame" />
+  <menuitem text="Save Game" icon="icons/save.gif" mnemonic="VK_S" Action="saveGame" />
+  <menuitem text="Save Game As..." mnemonic="VK_S" Action="saveGameAs" />
+  -->
+  <separator />
+  
+  <menuitem text="Import From TWXProxy ..." mnemonic="VK_S" Action="twxproxy_import" />
+  <!--
+  <menuitem text="Export..." mnemonic="VK_S" Action="export" />
+  
+  <separator />
+  
+  <menuitem text="Game Options" mnemonic="VK_X" Action="gameOptions" />
+-->
+  <separator />
+
+  <menuitem text="Exit" icon="icons/exit.gif" mnemonic="VK_X" Action="exit" />
+  
+</menu>
+
+<menu text="Edit">
+  <menuitem text="Copy" icon="icons/copy.gif" Action="copy" />
+  <menuitem text="Paste" icon="icons/paste.gif" Action="paste" />
+</menu>
+
+<menu text="Scripts">
+  <menuitem text="Run Script..." Action="script_run" />
+  <menuitem text="Stop Current Script" Action="script_stop" />
+  <separator />
+  <menuitem text="Test Dialog..." Action="script_guiTest" />
+  <checkboxmenuitem text="Enable Debugger" Action="script_toggleDebugger" />
+</menu>  
+
+<menu text="Terminal">
+<!--  <menuitem text="Smaller Font" Action="terminal" ActionCommand="smallerFont" />
+  <menuitem text="Larger Font"  Action="terminal" ActionCommand="largerFont" />
+  <separator />
+  <menuitem text="Buffer +50" Action="terminal" ActionCommand="bufferPlus50" />
+  <menuitem text="Buffer -50"  Action="terminal" ActionCommand="bufferMinus50" />
+  <separator />
+  <menuitem text="Reset"  Action="terminal" ActionCommand="reset" />
+  -->
+</menu>
+
+<menu text="Reports">
+    <menuitem text="Port Pairs (xBS - xSB)" Action="report_tradeEO" />
+    <menuitem text="Port Pairs (BxS - SxB)" Action="report_tradeEF" />
+    <menuitem text="Port Pairs (xxB - xxB)" Action="report_tradeEE" />
+    <menuitem text="xxB Clusters (2 hops)" Action="report_clusterE" />
+</menu>
+
+<menu text="Help">
+    <menuitem text="Reference Library" Action="help_show" />
+</menu>
+
+</menubar> 
+
+
+<panel id="top" layout="borderlayout" constraints="BorderLayout.NORTH"> 
+<toolbar id="tb" floatable="true" borderPainted="true" orientation="HORIZONTAL">
+  <button ToolTipText="Connect" icon="icons/connect.gif" Action="connect" borderPainted="false"/>
+  <button ToolTipText="Disconnect" icon="icons/disconnect.gif" Action="disconnect" borderPainted="false"/>
+  
+  <separator />
+  
+  <button ToolTipText="Copy" enabled="true" icon="icons/copy.gif" Action="copy" rolloverEnabled="true" borderPainted="false"/>
+  <button ToolTipText="Paste" enabled="true" icon="icons/paste.gif" Action="paste" borderPainted="false"/>
+  
+  <separator />
+  
+  <button ToolTipText="Record Macro" icon="icons/RedCircle.gif" Action="macro_record" borderPainted="false" />
+  <button ToolTipText="Stop Recording Macro" icon="icons/VCRStop.gif" Action="macro_stop" borderPainted="false"/>
+  <button ToolTipText="Play Macro" icon="icons/VCRPlay.gif" Action="macro_play" borderPainted="false"/>
+  
+  <separator />
+  
+  <button ToolTipText="Run Script..." Text="Run Script..." Action="script_run" borderPainted="false"/>
+  <button ToolTipText="Stop Current Script" icon="icons/green.gif" Action="script_stop" borderPainted="false"/>
+  
+  <separator />
+  
+  <button ToolTipText="Automatically pair trade with the best port" Text="Pair Trade" Action="twxproxy_trade" borderPainted="false"/>
+  <button ToolTipText="Automatically Steal-Steal-Move (SSM) with the best neighbor port" Text="SSM" Action="twxproxy_ssm" borderPainted="false"/>
+  <button ToolTipText="Stop All Scripts" Text="Stop All Scripts" Action="twxproxy_stop" borderPainted="false"/>
+  <!--
+  <separator />
+    
+  <combobox initclass="org.twdata.TW1606.ComboModel" font="Dialog-PLAIN-10" />
+  <button ToolTipText="Run" enabled="true" text="Run" Action="script" ActionCommand="run"  font="Dialog-PLAIN-10"/>
+  <button ToolTipText="Stop" enabled="false" text="Stop" Action="script" ActionCommand="stop" font="Dialog-PLAIN-10" />
+  -->
+</toolbar>
+
+</panel>
+  <status-panel constraints="BorderLayout.WEST" src="/gui/status.xml" preferredSize="150,200" />
+  <sector-map constraints="BorderLayout.EAST" src="/gui/map-detail.xml" preferredSize="200,200" />
+  <terminal id="terminalPanel" constraints="BorderLayout.CENTER"/>
+  <panel layout="borderlayout" constraints="BorderLayout.SOUTH" >
+    <stats src="/gui/stats.xml" preferredSize="150,150" constraints="BorderLayout.WEST" />
+    <game-notepad border="TitledBorder(Notepad)" preferredSize="200,150" constraints="BorderLayout.EAST" src="/gui/game-notepad.xml" />
+    <chat-manager preferredSize="150,150" constraints="BorderLayout.CENTER" src="/gui/chat-manager.xml" />
+    <status-bottom constraints="BorderLayout.SOUTH" src="/gui/status-bar.xml" />
+  </panel>
+</view-frame>
+
+

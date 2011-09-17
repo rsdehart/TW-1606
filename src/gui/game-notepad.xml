@@ -1,0 +1,9 @@
+<panel layout="BorderLayout" constraints="BorderLayout.CENTER">
+  <panel constraints="BorderLayout.NORTH" layout="BorderLayout">
+    <combobox id="titles" constraints="BorderLayout.CENTER" editable="true" enabled="false" font="Monospaced-PLAIN-10"  background="white" foreground="black" opaque="true"/>
+    <button id="xTitle" constraints="BorderLayout.EAST" enabled="false" label="X" />
+  </panel>
+  <scrollpane verticalScrollBarPolicy="JScrollPane.VERTICAL_SCROLLBAR_NEVER" id="notePane" enabled="false" constraints="BorderLayout.CENTER">
+    <textarea id="note" rows="5" editable="true" lineWrap="true" enabled="false" font="Monospaced-PLAIN-10"  background="white" foreground="black" opaque="true"/>
+  </scrollpane>
+</panel>

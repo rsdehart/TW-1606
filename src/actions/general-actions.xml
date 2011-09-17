@@ -1,0 +1,22 @@
+<actions>
+    <global>
+        frame = tw1606.getBean("view-frame");
+    </global>
+    <action id="exit">
+        dialog = new JDialog(frame, false);
+        dialog.setResizable(false);
+        dialog.setUndecorated(true);
+        panel = new JPanel();
+        panel.setLayout(new BorderLayout());
+        lbl = new JLabel("Shutting data store and backing up files...");
+        panel.add(lbl, BorderLayout.CENTER);
+        panel.setBorder(new Packages.javax.swing.border.EmptyBorder(20, 20, 20, 20));
+        dialog.getContentPane().add(panel, BorderLayout.CENTER);
+        dialog.pack();
+        dialog.setLocationRelativeTo(frame);
+        
+        dialog.show();
+        dialog.repaint();
+        Packages.org.twdata.TW1606.tw1606.getInstance().shutdown();
+    </action>
+</actions>    

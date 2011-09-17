@@ -1,0 +1,64 @@
+<panel layout="GridBagLayout" border="TitledBorder(Sector )" constraints="BorderLayout.SOUTH">
+  <popupmenu text="Edit" id="popup" enabled="false">
+    <menu text="Set Background" id="menuBackground">
+      <menuitem text="Black" />
+      <menuitem text="Red" />
+      <menuitem text="Blue" />
+      <menuitem text="Cyan" />
+      <menuitem text="Light Grey" />
+      <menuitem text="Gray" />
+      <menuitem text="Dark Grey" />
+      <menuitem text="Green" />
+      <menuitem text="Magenta" />
+      <menuitem text="Orange" />
+      <menuitem text="Pink" />
+      <menuitem text="White" />
+      <menuitem text="Yellow" />
+    </menu>
+    <menu text="Set Foreground" id="menuForeground">
+      <menuitem text="Black" />
+      <menuitem text="Red" />
+      <menuitem text="Blue" />
+      <menuitem text="Cyan" />
+      <menuitem text="Light Grey" />
+      <menuitem text="Gray" />
+      <menuitem text="Dark Grey" />
+      <menuitem text="Green" />
+      <menuitem text="Magenta" />
+      <menuitem text="Orange" />
+      <menuitem text="Pink" />
+      <menuitem text="White" />
+      <menuitem text="Yellow" />
+    </menu>
+    <menuitem text="Show sector..." id="showSector" />
+    <menuitem text="Refresh and center" id="refreshSector" />
+  </popupmenu>
+  
+  
+  
+        <label text="Port" font="SansSerif-PLAIN-12" id="lbl">
+            <gridbagconstraints insets="1,1,1,1" anchor="GridBagConstraints.LINE_START" gridx="0" gridy="0" gridwidth="1" weightx="0" weighty="0" fill="GridBagConstraints.NONE"/>
+        </label>    
+        <textfield id="port" editable="false" enabled="false" columns="10" text="" font="Monospaced-PLAIN-10" horizontalAlignment="4" background="white" foreground="black" opaque="true">
+            <gridbagconstraints insets="1,1,1,1" anchor="GridBagConstraints.LINE_START" gridx="1" gridy="0" gridwidth="3" weightx="1" weighty="0" fill="GridBagConstraints.HORIZONTAL"/>
+        </textfield>
+        <label text="Density" refid="lbl">
+            <gridbagconstraints insets="1,1,1,1" anchor="GridBagConstraints.LINE_START" gridx="0" gridy="1" weightx="0" weighty="0" fill="GridBagConstraints.NONE"/>
+        </label>    
+        <textfield id="density" columns="6" refid="port">
+            <gridbagconstraints insets="1,1,1,1" anchor="GridBagConstraints.LINE_START" gridx="1" gridy="1" weightx="1" weighty="0" fill="GridBagConstraints.HORIZONTAL"/>
+        </textfield>
+        <label text="Fighters" refid="lbl">
+            <gridbagconstraints insets="1,1,1,1" anchor="GridBagConstraints.LINE_START" gridx="2" gridy="1" weightx="0" weighty="0" fill="GridBagConstraints.NONE"/>
+        </label>    
+        <textfield id="fighters" columns="6" refid="port">
+            <gridbagconstraints insets="1,1,1,1" anchor="GridBagConstraints.LINE_START" gridx="3" gridy="1" weightx="1" weighty="0" fill="GridBagConstraints.HORIZONTAL"/>
+        </textfield>
+        <label text="Note" refid="lbl">
+            <gridbagconstraints insets="1,1,1,1" anchor="GridBagConstraints.FIRST_LINE_START" gridx="0" gridy="2" weightx="0" weighty="0" fill="GridBagConstraints.NONE"/>
+        </label> 
+        <scrollpane verticalScrollBarPolicy="JScrollPane.VERTICAL_SCROLLBAR_NEVER" id="notePane" enabled="false">
+        <gridbagconstraints insets="1,1,1,1" anchor="GridBagConstraints.CENTER" gridx="1" gridy="2" gridwidth="3" weightx="1" weighty="1" fill="GridBagConstraints.BOTH"/>
+        <textarea id="note" rows="5" refid="port" editable="true" lineWrap="true" />
+        </scrollpane>
+    </panel>

@@ -1,0 +1,9 @@
+<?xml version="1.0" ?>
+
+<scripts>
+    <script id="test" name="Test Script" path="test.bsh">
+        <description>This is a test</description>
+        <category name="test/foo" />
+    </script>
+</scripts>    
+    

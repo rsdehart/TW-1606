@@ -1,0 +1,384 @@
+<project name="kokua" default="compile" basedir=".">
+
+    <!-- ========== Initialization Properties ================================= -->
+    <!--
+            These property values may optionally be overridden with property
+            settings from an "ant" command line, the "antrc" properties file
+            in your home directory, or from settings in a superior build.xml
+            script.
+    -->
+
+    <!-- Java compilation options -->
+    <property name="compile.debug"         value="true" />
+    <property name="compile.deprecation"   value="true" />
+    <property name="compile.optimize"      value="false" />
+
+    <!-- Doc directory and packages that go in there -->
+    <property name="doc.dir"              value="./doc"/>
+
+    <!-- where all the library files are kept, plus what to include/exclude when building -->
+    <property name="lib.dir"              value="./lib" />
+    <property name="lib.core"              value="${lib.dir}/core" />
+    <property name="lib.build"              value="${lib.dir}/build" />
+
+    <!-- application information -->
+    <property name="app.name"           value="kokua" />
+    <property name="app.version"        value="0.7" />
+    <property name="app.title"        value="${app.name}-${app.version}" />
+
+    <!-- The base directory for distribution targets -->
+    <property name="dist.dir"           value="./dist" />
+   
+    <property name="src.dir" value="src" />
+    <property name="src.java" value="${src.dir}/java" />
+    <property name="src.actions" value="${src.dir}/actions" />
+    <property name="src.gui" value="${src.dir}/gui" />
+    <property name="src.docs" value="${src.dir}/docs" />
+    <property name="src.conf" value="${src.dir}/conf" />
+    <property name="src.icons" value="${src.dir}/icons" />
+    <property name="src.scripts" value="${src.dir}/scripts" />
+    <property name="src.test" value="${src.dir}/test" />
+    
+    <property name="build.dir" value="build" />
+    <property name="build.target" value="${build.dir}/target" />
+    <property name="build.doc" value="${build.dir}/doc" />
+    <property name="build.jnlp" value="${build.dir}/jnlp" />
+    <property name="build.test.java" value="${build.dir}/test/java" />
+    <property name="build.test.results" value="${build.dir}/test" />
+    <property name="build.res" value="${build.dir}/res" />
+    
+    <property name="jnlp.dir" value="jnlp" />
+    <property name="jnlp.dist" value="/opt/www/html/dakine" />
+
+    <property name="javadoc.packages" value="org.twdata.kokua.*" />
+
+
+    <!-- ========== Derived Properties ======================================== -->
+    <!--
+            These property values are derived from values defined above, and
+            generally should NOT be overridden by command line settings
+    -->
+
+    <!-- The name of the application archive files to be produced -->
+    <property name="app.jar"           value="${app.name}-${app.version}.jar" />
+    <property name="app-res.jar"           value="${app.name}-${app.version}-resources.jar" />
+    <property name="release.zip"           value="${app.name}-${app.version}.zip" />
+
+    <path id="compile.classpath">
+        <fileset dir="${lib.build}" includes="*.jar" />
+        <fileset dir="${lib.core}" includes="*.jar" />
+        <pathelement location="${build.target}"/>
+        <pathelement location="${build.test.java}" />
+    </path> 
+
+    <!-- ========== Executable Targets ======================================== -->
+    <!--
+            The "init" target evaluates "available" expressions as necessary
+            to modify the behavior of this script.
+    -->
+
+    <target name="init">
+        <available file="${src.java}"   property="src.java.present"/>
+        <available file="${lib.dir}"     property="lib.dir.present"/>
+    </target>
+
+    <!--
+            The "clean" task deletes any created directories that have resulted
+            from running any of the other targets in this script.
+    -->
+
+    <target name="clean"
+        description="Clean build and distribution directories">
+        <echo    message="Cleaning ${app.name}"/>
+        <delete   dir="${build.dir}" />
+        <delete   dir="${dist.dir}" />
+	<delete>
+            <fileset dir="." defaultexcludes="no" includes="**/*~" />
+        </delete> 
+    </target>
+
+    <!--
+            The "prepare" target creates a directory structure in the build target
+            area for the unpacked files associated with this web application
+    -->
+    <target name="prepare" depends="init"
+        description="Prepare target directory">
+        <mkdir   dir="${build.dir}" />
+        <mkdir   dir="${build.target}" />
+        <mkdir   dir="${dist.dir}" />
+        <mkdir   dir="${doc.dir}" />
+    </target>
+
+     <target name="release" depends="clean, lexer, jar, jar.dist, javadoc"
+             description="Creates a release">
+        <echo message="Creating ${app.version} release" />
+        
+        <zip destfile="${release.zip}"
+            compress="true">
+            <zipfileset dir="${src.dir}" prefix="${app.title}/src" />
+            <zipfileset dir="${jnlp.dir}" prefix="${app.title}/jnlp" />
+            <zipfileset dir="${doc.dir}" prefix="${app.title}/doc" />
+            <zipfileset dir="${lib.dir}" prefix="${app.title}/lib" />
+            <zipfileset dir="${dist.dir}" prefix="${app.title}/dist" />
+            <zipfileset dir="." includes="build.xml" prefix="${app.title}" />
+        </zip>
+    </target>
+        
+        
+    <!--
+            The "compile" target compiles the Java source code of your web
+            application, if and only if the specified source directory
+            actually exists.
+    -->
+    <target name="compile" depends="prepare" description="Compile Java sources">
+        <buildnumber file="${src.conf}/build.number" />
+
+        <echo    message="Compiling ${app.name} build ${build.number}"/>
+
+        <echo    message="Source ${src.java}"/>
+        <echo    message="Target ${build.target}"/>
+        <javac  srcdir="${src.java}"
+            destdir="${build.target}"
+            debug="${compile.debug}"
+            deprecation="${compile.deprecation}"
+            optimize="${compile.optimize}">
+            <classpath refid="compile.classpath" />
+        </javac>
+    </target>
+    
+
+	<target name="run-tests" depends="compile">
+        <mkdir dir="${build.test.java}" />
+        <mkdir dir="${build.test.results}" />
+		<javac srcdir="${src.test}" destdir="${build.test.java}"
+			debug="on" optimize="off" deprecation="off" >
+            <classpath refid="compile.classpath" />
+        </javac>
+        <copy todir="${build.test.java}">
+            <fileset dir="${src.test}" excludes="**/*.java" />
+        </copy>    
+		<junit printsummary="on" fork="on" haltonfailure="yes" haltonerror="yes">
+			<formatter type="text, xml" usefile="true" />
+			<classpath refid="compile.classpath" />
+
+			<batchtest todir="${build.test.results}">
+				<fileset dir="${src.test}">
+					<include name="**/*Test.java" />
+				</fileset>
+			</batchtest>
+		</junit>
+    </target>
+    
+    <!--
+            The 'javadoc' target creates the API documentation.
+            All javadoc is created in the ${doc.dir}/javadoc directory.
+    -->
+    <target name="javadoc" depends="init">
+        <mkdir dir="${doc.dir}/api"/>
+        <javadoc packagenames="${javadoc.packages}"
+            sourcepath="${src.java}"
+            destdir="${doc.dir}/api"
+            author="true"
+            version="true"
+            private="false"
+            doctitle="${app.name} Version ${app.version}">
+            <classpath refid="compile.classpath" />
+        </javadoc>
+    </target>
+    <!--
+            The "dist" target creates a web application archive containing
+            your completed web application, suitable for deployment on any
+            compatible servlet container.
+    -->
+   <target name="jar" depends="compile"
+        description="Create jar">
+        <echo    message="Processing jarfile ${app.name}"/>
+        <mkdir dir="${build.res}" />
+        <jar  jarfile="${dist.dir}/${app.jar}"
+            basedir="${build.target}"/>
+            
+            
+           
+        <zip  zipfile="${build.res}/resources.zip">
+            <fileset dir="${src.dir}">
+                <include name="actions/**" />
+                <include name="icons/**" />
+                <include name="docs/**" />
+                <include name="gui/**" />
+                <include name="scripts/**" />
+                <include name="conf/**" />
+                <include name="twxproxy/**" />
+            </fileset>
+        </zip>
+           
+        <jar  jarfile="${dist.dir}/${app-res.jar}">
+            <fileset dir="${src.dir}">
+                <include name="actions/**" />
+                <include name="icons/**" />
+                <include name="docs/**" />
+                <include name="gui/**" />
+                <include name="scripts/**" />
+                <include name="conf/**" />
+                <include name="twxproxy/**" />
+            </fileset>
+            <fileset dir="${build.res}" />
+        </jar>
+    </target>
+   
+   <target name="lexer">
+        <taskdef classname="JFlex.anttask.JFlexTask" name="jflex" 
+            classpathref="compile.classpath" />
+        
+        <jflex
+            timeStatistics="on"
+            file="${src.java}/org/twdata/kokua/tw/TWLexer.flex"
+            destdir="${src.java}"
+        />
+        
+        <jflex
+            timeStatistics="on"
+            file="${src.java}/org/twdata/kokua/tw/ChatLexer.flex"
+            destdir="${src.java}"
+        />
+        <!--
+        <antlr
+            target="${src.java}/org/twdata/kokua/tw/ChatLexer2.g"
+                outputdirectory="${src.java}/org/twdata/kokua/tw"
+                />
+                
+        <antlr
+            target="${src.java}/org/twdata/kokua/tw/TWLexer2.g"
+                outputdirectory="${src.java}/org/twdata/kokua/tw"
+                trace="no"/>
+        -->
+
+        <!--
+        <java jar="${lib.build}/jlex.jar" fork="true">
+          <arg value="${src.java}/org/twdata/kokua/tw/ChatLexer" />
+        </java>        
+        <java jar="${lib.build}/jlex.jar" fork="true">
+          <arg value="${src.java}/org/twdata/kokua/tw/TWLexer" />
+        </java>
+        -->
+    </target>
+    
+    <target name="signjars" depends="jar">
+        <mkdir dir="${build.jnlp}" />
+        <copy todir="${build.jnlp}">
+            <fileset dir="${lib.core}" />
+        </copy>
+        <copy todir="${build.jnlp}">
+             <fileset dir="${dist.dir}">
+                <include name="${app.jar}" />
+                <include name="${app-res.jar}" />
+            </fileset>
+        </copy>
+        <copy todir="${build.jnlp}" file="${jnlp.dir}/${app.name}.jnlp" />
+        <signjar alias="myself" storepass="password" keystore="${jnlp.dir}/myKeystore">
+            <fileset dir="${build.jnlp}" includes="*.jar" />
+        </signjar>
+    </target>
+    
+    <target name="jnlp" depends="signjars">
+    
+        <copy todir="${build.jnlp}" file="${src.icons}/turtle_64.gif" />
+    
+        <taskdef classpath="${lib.build}/roxes-ant-tasks-1.1-2003-10-16.jar" resource="com/roxes/tools/ant/taskdefs.properties"/>
+        <jnlp
+          toFile="${build.jnlp}/${app.name}.jnlp"
+          spec="1.0+"
+          codebase="http://www.twdata.org/${app.name}"
+          href="${app.name}.jnlp">
+          <information>
+            <title>Kokua - Trade Wars Assistant</title>
+            <vendor>Don Brown</vendor>
+            <homepage href="index.html"/>
+            <description>Kokua Trade Wars Assistant</description>
+            <description kind="short">The Kokua Trade Wars 2002 Assistant</description>
+            <icon href="turtle_64.gif"/>
+            <offline_allowed/>
+          </information>
+          <security>
+              <all_permissions/>
+          </security>
+          <resources>
+            <j2se version="1.4"/>
+            <fileset dir="${build.jnlp}" includes="${app.jar}" />
+            <fileset dir="${build.jnlp}" includes="*.jar" excludes="${app.jar}"/>
+          </resources>
+          <application_desc main_class="org.twdata.kokua.Main"/>
+        </jnlp> 
+    
+    </target>
+    
+    <target name="jnlp.dist" depends="jnlp">
+        <copy todir="${jnlp.dist}">
+            <fileset dir="${build.jnlp}" />
+        </copy>
+    </target>
+    
+    <target name="jnlp.dist.quick" depends="jar">
+        <copy todir="${build.jnlp}">
+            <fileset dir="${dist.dir}">
+                <include name="${app.jar}" />
+                <include name="${app-res.jar}" />
+            </fileset>
+        </copy>
+        <signjar alias="myself" storepass="password" keystore="${jnlp.dir}/myKeystore">
+            <fileset dir="${build.jnlp}" includes="${app.name}*.jar" />
+        </signjar>
+        <copy todir="${jnlp.dist}">
+            <fileset dir="${build.jnlp}" includes="${app.name}*.jar" />
+        </copy>
+    </target>
+    
+    <target name="jar.dist" depends="jar">
+    
+        <taskdef resource="genjar.properties" classpath="${lib.build}/GenJar.jar" />
+        <genjar jarfile="${dist.dir}/${app.title}-standalone.jar">
+          <classpath>
+            <pathelement location="${dist.dir}"/>
+            <fileset dir="${lib.build}" includes="*.jar" />
+            <fileset dir="${lib.core}" includes="*.jar" />
+            <pathelement location="${build.target}"/>
+            <pathelement location="${build.test.java}" />
+          </classpath>  
+          
+          <classfilter>
+            <!-- don't load any of the apache stuff (XML et.al.)-->
+             <exclude name="org.xml."/>
+             <exclude name="com.apple."/>
+             <exclude name="org.apache.xerces."/>
+          </classfilter>
+        
+          
+          <library jar="${dist.dir}/${app.jar}"/>
+          <library jar="${dist.dir}/${app-res.jar}" />
+          <library jar="${lib.core}/log4j-1.2.7.jar" />
+          <library jar="${lib.core}/commons-logging.jar" />
+          <library jar="${lib.core}/commons-beanutils.jar" />
+          <library jar="${lib.core}/commons-collections.jar" />
+          <library jar="${lib.core}/spring-beans.jar" />
+          <library jar="${lib.core}/spring-core.jar" />
+          <library jar="${lib.core}/rhino1.5r4-continuations-20030906.jar" />
+          <library jar="${lib.core}/bsf.jar" />
+          <library jar="${lib.core}/bsh-1.3.0.jar" />
+          <library jar="${lib.core}/xstream-1.0.2.jar" />
+          <library jar="${lib.core}/xpp3-1.1.3.4d_b4_min.jar" />
+          <library jar="${lib.core}/jdbm-0.20.jar" />
+          <library jar="${lib.core}/jdom.jar" />
+          <library jar="${lib.core}/swixml.jar" />
+          <library jar="${lib.core}/bus.jar" />
+          <library jar="${lib.core}/jhall.jar" />
+          <library jar="${lib.core}/hyperapplet.jar" />
+          <library jar="${lib.core}/looks-1.2.2.jar" />
+          <library jar="${lib.core}/commons-jxpath-1.2.jar" />
+          <library jar="${lib.core}/jgrapht-0.5.3.jar" />
+          <!--<library jar="${lib.core}/xercesImpl-2.4.0.jar" />-->
+          
+          <manifest>
+            <attribute name="Main-Class"      value="org.twdata.kokua.Main" />
+          </manifest>
+        </genjar>
+    </target>
+</project>
