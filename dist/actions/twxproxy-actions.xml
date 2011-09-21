@@ -1,0 +1,38 @@
+<actions>
+    <global>
+    	tw1606u.load("/scripts/twxproxy.js");
+        session = tw1606u.getBean("session");
+        sectorDao = tw1606u.getBean("sectorDao");
+    </global>
+    <action id="twxproxy_stop" onConnect="action.setEnabled(true);" onDisconnect="action.setEnabled(false);" enabled="false">
+        stopAllScripts();
+    </action>
+    <action id="twxproxy_move" label="Move" onConnect="action.setEnabled(true);" onDisconnect="action.setEnabled(false);" enabled="false">
+    	<![CDATA[
+        sector = session.getSector();
+        var id;
+        if (action.link)
+        	id = action.link.text;
+       	else
+       		id = prompt("Please enter the sector to move to");
+        
+        var warp = sectorDao.get(parseInt(id), true);
+        move(warp);
+        ]]>
+    </action>
+    <action id="twxproxy_trade" label="Trade" onConnect="action.setEnabled(true);" onDisconnect="action.setEnabled(false);" enabled="false">
+    	<![CDATA[
+        sector = session.getSector();
+        var warp = (action.link ? sectorDao.get(parseInt(action.link.text), true) : findBestTradingPair(sector));
+        trader = session.getTrader();
+        trade(trader, sector, warp);
+        ]]>
+    </action>
+    <action id="twxproxy_ssm" label="SSM" onConnect="action.setEnabled(true);" onDisconnect="action.setEnabled(false);" enabled="false">
+    	<![CDATA[
+        sector = session.getSector();
+        warp = findBestSSMPair(sector);
+        ssm(sector, warp);
+        ]]>
+    </action>
+</actions>    

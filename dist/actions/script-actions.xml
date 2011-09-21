@@ -1,0 +1,47 @@
+<actions>
+    <global>
+        var frame = tw1606u.getBean("view-frame");
+        var flow = tw1606u.getBean("flow-interpreter");
+        var actions = tw1606u.getBean("action-manager");
+        var srcStart = actions.getAction("script_run");
+        var srcStop = actions.getAction("script_stop");
+        var file;
+    </global>
+    <action id="script_run" onConnect="action.setEnabled(true);" onDisconnect="action.setEnabled(false);" enabled="true">
+        dlg = new JFileChooser();
+        dlg.setDialogTitle("Run a Script");
+        dlg.showOpenDialog(frame);
+        file = dlg.getSelectedFile();
+        if (file != null) {
+            theScriptFile = file.getAbsolutePath();
+            flow.exec(file.toURL(), true);
+        }
+        //srcStart.setEnabled(false);
+        srcStop.setEnabled(true);
+    </action>
+    <action id="script_stop" onConnect="action.setEnabled(false);" onDisconnect="action.setEnabled(false);" enabled="false">
+        alert("here flow:"+flow+" file:"+file);
+        flow.stop(file.toURL());
+        alert("there");
+        srcStart.setEnabled(true);
+        srcStop.setEnabled(false);
+    </action>
+    <action id="script_guiTest" enabled="true">
+    dlg = new JFileChooser();
+        dlg.setDialogTitle("Test a Dialog Screen");
+        dlg.showOpenDialog(frame);
+        file = dlg.getSelectedFile();
+        if (file != null) {
+            var dlog = new Dialog(kokua, file);
+            dlog.jdialog.pack();
+            dlog.show();
+        }
+    </action>
+    <action id="script_toggleDebugger" enabled="false" >
+        if (flow.getEnableDebugger()) {
+            flow.setEnableDebugger(false);
+        } else {
+            flow.setEnableDebugger(true);
+        }    
+    </action>
+</actions>    

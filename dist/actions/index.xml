@@ -1,0 +1,34 @@
+<actions-config>
+    <categories>
+        <category name="General">
+            <actions type="flow" path="general-actions.xml" />
+        </category>
+        <category name="Import/Export">
+            <actions type="flow" path="xport-actions.xml" />
+        </category>
+        <category name="Connection">
+            <actions type="flow" path="connection-actions.xml" />
+        </category>    
+        <category name="Clipboard">
+            <actions type="flow" path="clipboard-actions.xml" />
+        </category>
+        <category name="Script">
+            <actions type="flow" path="script-actions.xml" />
+        </category>
+        <category name="Macro">
+            <actions type="flow" path="macro-actions.xml" />
+        </category>
+        <category name="Capture">
+            <actions type="flow" path="capture-actions.xml" />
+        </category>
+        <category name="Report">
+            <actions type="flow" path="report-actions.xml" />
+        </category>
+        <category name="Help">
+            <actions type="flow" path="help-actions.xml" />
+        </category>
+        <category name="TWX Proxy">
+            <actions type="link" path="twxproxy-actions.xml" />
+        </category>
+    </categories>    
+</actions-config>    

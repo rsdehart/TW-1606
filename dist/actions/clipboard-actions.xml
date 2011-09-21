@@ -1,0 +1,16 @@
+<actions>
+    <global>
+        terminal = tw1606u.getBean("terminal");
+        clipboard = tw1606u.getBean("clipboard");
+    </global>   
+    <action id="copy">
+        data = terminal.getSelection();
+        clipboard.copy(data);
+    </action>
+    <action id="paste">
+        data = clipboard.paste();
+        if (data != null) {
+            terminal.write(data.getBytes());
+        }
+    </action>
+</actions>    

@@ -1,0 +1,23 @@
+<actions>
+    <global>
+        macro = tw1606u.getBean("macro-recorder");
+        play = tw1606u.getBean("action-manager").getAction("macro_play");
+        stop = tw1606u.getBean("action-manager").getAction("macro_stop");
+        record = tw1606u.getBean("action-manager").getAction("macro_record");
+    </global>
+    <action id="macro_record" onConnect="action.setEnabled(true);" onDisconnect="action.setEnabled(false);" enabled="false">
+        macro.startRecording();
+        record.setEnabled(false);
+        stop.setEnabled(true);
+        play.setEnabled(false);
+    </action>
+    <action id="macro_stop" onConnect="action.setEnabled(false);" onDisconnect="action.setEnabled(false);" enabled="false">
+        macro.stopRecording();
+        stop.setEnabled(false);
+        record.setEnabled(true);
+        play.setEnabled(true);
+    </action>
+    <action id="macro_play" onConnect="action.setEnabled(false);" onDisconnect="action.setEnabled(false);" enabled="false">
+        macro.play();
+    </action>
+</actions>    

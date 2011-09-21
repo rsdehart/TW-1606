@@ -1,0 +1,31 @@
+<actions>
+    <global>
+        frame = tw1606u.getBean("view-frame");
+        
+    </global>
+    <action id="twxproxy_import">
+        importer = tw1606u.getBean("twxproxy-importer");
+        dlg = new JFileChooser();
+        dlg.setDialogTitle("Choose the TWXProxy export file");
+        dlg.showOpenDialog(frame);
+        file = dlg.getSelectedFile();
+        if (file != null) {
+            function importData() { 
+              if (importer.importData(frame, file.toURL())) {
+                alert("TWX Proxy import completed");
+              } else {
+                alert("TWX Proxy import cancelled or unable to complete"); 
+              }
+            }
+            obj = new Object();
+            obj.prototype = this;
+            obj.file = file;
+            obj.run = importData;
+            obj.importer = importer;
+            obj.frame = frame;
+            r = new java.lang.Runnable(obj);
+            t = new java.lang.Thread(r);
+            t.start();      
+        }
+    </action>
+</actions>    

@@ -1,0 +1,57 @@
+<panel layout="FlowLayout">
+<vbox>
+<vbox border="TitledBorder(Trader Info)">
+  <panel id="line" layout="GridLayout(1,0,3,0)" border="EmptyBorder(1,1,1,1)">
+    <label text="Sector" id="lbl" font="SansSerif-PLAIN-12"/>
+    <textfield editable="false" id="currentSector" enabled="false" Margin="0,0,0,0" columns="7" text="" font="Monospaced-BOLD-12" horizontalAlignment="4" background="black" foreground="green" opaque="true" />
+  </panel>
+  <panel refid="line">
+    <label text="Turns" refid="lbl"/>
+    <textfield id="turnsLeft" refid="currentSector"/>
+  </panel>
+  <panel refid="line">
+    <label text="Experience" refid="lbl"/>
+    <textfield id="experience" refid="currentSector" />
+  </panel>
+  <panel refid="line">
+    <label text="Alignment"  refid="lbl"/>
+    <textfield id="alignment"  refid="currentSector" />
+  </panel>
+  <panel refid="line">
+    <label text="Credits" refid="lbl" />
+    <textfield id="credits" refid="currentSector" />
+  </panel>
+</vbox>
+<vbox border="TitledBorder(Holds)">
+  <panel refid="line">
+    <label text="Total"  refid="lbl"/>
+    <textfield id="holdsTotal" refid="currentSector"/>
+  </panel>
+  <panel refid="line">
+    <label text="Fuel Ore"  refid="lbl"/>
+    <textfield id="holdsFuel" refid="currentSector"/>
+  </panel>
+  <panel refid="line">
+    <label text="Organics"  refid="lbl"/>
+    <textfield id="holdsOrg" refid="currentSector"/>
+  </panel>
+  <panel refid="line">
+    <label text="Equipment"  refid="lbl"/>
+    <textfield id="holdsEquip" refid="currentSector"/>
+  </panel>
+  <panel refid="line">
+    <label text="Colonists"  refid="lbl"/>
+    <textfield id="holdsCols" refid="currentSector"/>
+  </panel>
+  <panel refid="line">
+    <label text="Empty" refid="lbl" />
+    <textfield id="holdsEmpty" refid="currentSector"/>
+  </panel>
+</vbox>
+<vbox border="TitledBorder(Quick Query)">
+  <panel refid="line">
+    <quick-query enabled="false" />
+  </panel>
+</vbox>
+</vbox>
+</panel>

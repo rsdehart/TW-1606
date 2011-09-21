@@ -1,0 +1,129 @@
+<actions>
+    <global>
+    <![CDATA[
+    	tw1606u.load("/scripts/tw-basic.js");
+        var frame = tw1606u.getBean("view-frame");
+        
+        function findPairs(prod1, prod2, prodFunc) {
+            sectors = tw1606u.getBean("sectorDao").getAll().toArray();
+            curSector = tw1606u.getBean("session").sector;
+        
+            var data = new Array();
+            var dataPos = -1;
+            for (x=0; x<sectors.length; x++) {
+                s = sectors[x];
+                p = s.port;
+                if (p != null) {
+                    if (prodFunc(p, prod1, prod2)) {
+                        warps = s.warps;
+                        for (y=0; y<warps.length; y++) {
+                            wp = warps[y].port;
+                            if (wp != null) {
+                                if (prodFunc(wp, prod2, prod1)) {
+                                    maxProd1 = Math.max(p.getCurProduct(prod1), wp.getCurProduct(prod1));
+                                    minProd1 = Math.min(p.getCurProduct(prod1), wp.getCurProduct(prod1));
+                                    maxProd2 = Math.max(p.getCurProduct(prod2), wp.getCurProduct(prod2));
+                                    minProd2 = Math.min(p.getCurProduct(prod2), wp.getCurProduct(prod2));
+                                    try {
+                                        dist = distanceBetweenSectors(curSector, s);
+                                    } catch (e) {
+                                        alert("problem:"+e);
+                                        dist = -1;
+                                    }    
+                                        
+                                    data[++dataPos] = new Array(8);
+                                    data[dataPos][0] = s.id;
+                                    data[dataPos][1] = p.portClassName;
+                                    data[dataPos][2] = wp.sector.id;
+                                    data[dataPos][3] = wp.portClassName;
+                                    data[dataPos][4] = maxProd1==-1 ? "??" : 
+                                                       minProd1==-1 ? "<="+maxProd1 :
+                                                       minProd1;
+                                    data[dataPos][5] = maxProd2==-1 ? "??" : 
+                                                       minProd2==-1 ? "<="+maxProd2 :
+                                                       minProd2;
+                                    if (maxProd2 == -1 || maxProd1 == -1) {
+                                        data[dataPos][6] = "??";
+                                    } else if (minProd1 == -1 || minProd2 == -1) {    
+                                        data[dataPos][6] = "<="+Math.max(minProd1, minProd2);
+                                    } else {
+                                        data[dataPos][6] = Math.min(minProd1, minProd2);
+                                    }    
+                                    data[dataPos][7] = dist == -1 ? "??" : dist;
+                                }
+                            }    
+                        }
+                    }    
+                }   
+            }
+            
+            return data;
+        }
+        ]]>
+    </global>
+    <action id="report_tradeEO" onConnect="action.setEnabled(true);" onDisconnect="action.setEnabled(false);" enabled="false">
+      <![CDATA[
+        prodFunc = new Function("p", "prod1", "prod2", "return p.buysProduct(prod1) && !p.buysProduct(prod2)");
+        data = findPairs(Port.EQUIPMENT, Port.ORGANICS, prodFunc);
+        titles = ["From Sector", "From Port", "To Sector", "To Port Type", "Equipment", "Organics", "Available", "Distance"]
+        showTable("Port Pairs (xBS - xSB)", data, titles, 7);   
+      ]]>    
+    </action>
+    <action id="report_tradeEF" onConnect="action.setEnabled(true);" onDisconnect="action.setEnabled(false);" enabled="false">
+      <![CDATA[
+        prodFunc = new Function("p", "prod1", "prod2", "return p.buysProduct(prod1) && !p.buysProduct(prod2)");
+        data = findPairs(Port.EQUIPMENT, Port.FUEL_ORE, prodFunc);
+        titles = ["From Sector", "From Port", "To Sector", "To Port Type", "Equipment", "Fuel Ore", "Available", "Distance"]
+        showTable("Port Pairs (BxS - SxB)", data, titles, 7);  
+      ]]>  
+    </action>
+    <action id="report_tradeEE" onConnect="action.setEnabled(true);" onDisconnect="action.setEnabled(false);" enabled="false">
+      <![CDATA[
+        prodFunc = new Function("p", "prod1", "prod2", "return p.buysProduct(prod1) && p.buysProduct(prod2)");
+        data = findPairs(Port.EQUIPMENT, Port.EQUIPMENT, prodFunc);
+        titles = ["From Sector", "From Port", "To Sector", "To Port Type", "Equipment", "Equipment", "Available", "Distance"]
+        showTable("Port Pairs (xxB - xxB)", data, titles, 7);  
+      ]]>    
+    </action>
+    <action id="report_clusterE" onConnect="action.setEnabled(true);" onDisconnect="action.setEnabled(false);" enabled="false">
+      <![CDATA[
+      ports = tw1606u.getBean("portDao").getAll().toArray();
+      trader = tw1606u.getBean("session").trader;
+      curSector = tw1606u.getBean("session").sector
+      var data = new Array();
+      var dataPos = -1;
+      var count;
+      for (x=0; x<ports.length; x++) {
+          p = ports[x];
+          if (p.buysProduct(p.EQUIPMENT)) {
+            sectors = getSectorsInRange(p.sector, 2);
+            count = 0;
+            while (sectors.hasNext()) {
+              s = sectors.next();
+              if (s.port != null && s.port.buysProduct(p.EQUIPMENT)) {
+                count++;
+              }
+            }
+            if (count > 1) {
+              data[++dataPos] = new Array(4);
+              data[dataPos][0] = p.id;
+              data[dataPos][1] = count;
+              
+              if (p.sector.fighters > 0 && 
+                p.sector.fighterOwner != null &&
+                trader != null && 
+                p.sector.fighterOwner.isFriendly(trader)) {
+                  data[dataPos][2] = "yes";
+              } else {
+                  data[dataPos][2] = "";
+              }
+              dist = distanceBetweenSectors(curSector, p.sector);
+              data[dataPos][3] = dist == -1 ? "??" : dist;
+            }
+          }  
+      }
+      titles = ["Center Port", "xxB ports", "Contains your fighters", "Distance"];
+      showTable("xxB Cluster", data, titles, 1);
+      ]]>
+    </action>
+</actions>    

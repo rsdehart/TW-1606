@@ -1,0 +1,101 @@
+<html>
+<head>
+  <title>Pod Locations, by Dr. Bad</title>
+</head>
+<body>
+<h2>Pod Locations, by Dr. Bad</h2>
+<p>
+Oh Where Oh Where has my little pod gone!
+</p><p>
+... or more importantly, where will it go.
+</p><p>
+Suppose you are about to go do something risky. Maybe its exploring with your enemy online, maybe its an invasion. Having an escape pod is not much good if you're just going to immediately get killed in it, so it pays to know exactly where you pod will go before you get killed, and just as important to manipulate that to be somewhere handy.
+</p><p>
+The game goes very close to having two consistent rules for pod locations:
+</p>
+<ol>
+  <li>If you kill yourself, your pod goes to your "previous sector".</li>
+  <li>If someone kills you, your pod flees along a "safe path".</li>
+</ol>
+<p>
+(I'll get to what "previous sector" and "safe path" mean in a minute.)
+</p><p>
+I mean this very genericly- i.e. if someone else pressed the keys that caused the game to put you in a pod, then your pod will use the "safe path" algorithm. If _you_ pressed the keys then it'll go to your "previous sector"
+</p><p>
+For example, Killing yourself includes among other things, blowing up on quasars, blowing up on military reaction, hitting navhaz, getting killed by offensive sector fighters, even attacking Captain Z. Being killed by someone else includes them hitting your ship with figs, blowing up the planet you were on, or blowing up the port you were on.
+</p><p>
+Just to be confusing, there's one special case - bwarp fusion. God knows why. If you fuse bwarping your pod goes back in the sector you attempted to bwarp from, and ignores your previous sector. [twarp fusion does at least follow the rules- e.g. manual warp from 23 to 24, your last sector is now 23. Attempt to twarp from 24 -> 36 (but fail), pod goes to 23- your previous sector as we'll see shortly.]
+</p><p>
+ok, so what do "safe path" and "previous sector" mean?
+</p>
+<h4>"previous sector"</h4>
+<p>
+The previous sector is a weird concept in twgs, although the weirdness does make for some interesting subtle differences between the various methods of moving about- and thereby some subtle invasion tactics. twgs maintains a "previous sector" field and puts your pod there whenever you blow yourself up. The previous sector set depends on how you move:
+</p>
+<ol>
+  <li>manual warp, or retreat (note- don't confuse retreat and flee) from 1234 -> 2345; your previous sector is now 1234</li>
+  <li>transport from ship in 1234 -> ship in 2345; your previous sector is now 1234</li>
+  <li>transport from ship in 2345 -> ship in 2345; your previous sector is now 2345</li>
+  <li>pwarp from sector 1234 -> sector 2345; your previous sector gets set to sector 1 [in recent previous twgs versions it would instead remain unchanged].</li>
+  <li>your teammate pwarps from sector 1234 -> sector 2345 with you landed; your previous sector is now 2345 [again this changed recently from not changing your previous]</li>
+  <li>twarp from sector 1234 -> sector 2345; your previous sector is now 2345!</li>
+  <li>bwarp from sector 1234 -> sector 2345; your previous sector does not change.</li>
+</ol>
+<p>
+It is left as an exercise to the reader to determine where your last sector is if you:
+</p>
+<ul>
+  <li>fled from sector 1234 to sector 2345 whilst online</li>
+  <li>" " whilst offline</li>
+  <li>got towed from sector 1234 to 2345 whilst online</li>
+  <li>" " whilst offline</li>
+  <li>got podded, and then exchanged your ship in a citadel for a fresh one with a new pod all ready to go.</li>
+</ul>  
+<p>
+Clearly the main goal here is to avoid your pod staying in the sector you got yourself blown up in, as usually the same thing that blew up your ship will get your pod as well. If you follow the 3 golden rules, you should hardly ever get #SD# invading without significant "assistance" from an enemy:
+</p>
+<ol>
+    <li><strong>_DO NOT EVER_</strong> twarp to an enemy sector. Its worth the handful of turns to twarp next door, then manual warp to their sector.</li>
+    <li><strong>_DO NOT EVER_</strong> transport between two of your ships in your enemy sector. Instead first transport to a ship in a different sector and then transport to the ship you wanted to get into- its worth one turn for your pod to go somewhere your enemy can't immediately kill.</li>
+    <li><strong>_DO NOT EVER_</strong> have a teammate pwarp you to your enemies base before invading.</li>
+</ol>    
+<p>
+Where you can arrange it, before landing on enemy planets, its best to transport to a ship in your home base, and then from there to a ship in your enemies sector- that way if you get podded, your pod is extra safe in your home base.
+</p>
+<h4>"safe path"</h4>
+<p>Well, first up, what is "safe" then? A sector is safe if either it contains fighters belonging to you, your corp, or is empty. [exercise for the reader- work out if mines have any effect.] Should you get killed by someone else, twgs uses the following approach to choose where your pod goes:
+</p>
+<ol>
+    <li>Pick a bunch of random locations 3-20 away. [I'm not sure on the exact max (20) and min (3) here, however the exact figures have little impact.]</li>
+    <li>Plot paths from your current location to those random locations.</li>
+    <li>Move as far along one of those paths as possible whilst only passing through safe sectors.</li>
+</ol>    
+<p>
+On many occasions this will leave your pod a long way from where you got podded. If your current sector is completely surrounded by enemy figthers though, your pod will not be able to move at all along these paths without encountering an "unsafe" sector- and hence will remain in the sector where you were blown up- and presumably your opponent will quickly kill your pod.
+</p><p>
+Simple so far. On most occasions where your current sector has at least one "safe" adjacent sector, your pod will at least move out- though the more sectors you own in that vincinity, the better odds you have of fleeing a long way. If you think this algorithm through however, you'll see that there are other occasions where your pod does the disastourous thing of remaining in the sector with your foe. One common example is if you are killed in the gate of a dead end:
+</p>
+<blockquote>
+1234S - 2345 - 3456* - RestOfSpace
+|
+4567* - RestOfSpace
+</blockquote>
+<p>
+Suppose you are killed in sector 2345, sectors marked * are unsafe, sectors marked "S" are safe. When twgs picks its bunch of random locations 3-20 hops away, it _can't possibly_ pick 1234, as its only 1 hop away. Further, _every_ path to somewhere 3-20 hops away goes through 3456 or 4567. Hence your pod cannot move safely along any of these paths, and it remains in 2345 to be cleaned up by your enemy.
+</p><p>
+Even outside a bubble type situation there are occasions where your pod will not flee.
+</p>
+<blockquote>
+Rest of Space - 1234S - 2345 - 3456* - RestOfSpace
+|
+4567* - RestOfSpace
+</blockquote>
+<p>
+Again suppose you get killed in 2345. But suppose that at 95% of the plots to other sectors go through 3456 and 4567, and only 5% through 1234. In this kind of case your pod may eject through 1234 if you are lucky, but there's also a reasonable chance that all the plots twgs picks go via 3456 &amp; 4567- and hence your pod does not eject. This can frequently happen at, or next to, stardock, as in most maps, "most of space" is in the direction of alpha or rylos from stardock, and not so much is in the direction of the other 4 exits.
+</p><p>
+As you can see, getting podded by an enemy can at times be quite dicey. Sometimes in online invasions, its worth making certain you kill yourself, so that your enemy does not get the opporunity to kill you (and potentially have your pod not eject)
+</p><p>
+One final word of warning. The mechanics of getting podded have changed in almost every version of twgs for the last couple of years. The descriptions above are written based on revision .55. Don't expect it to be the same in future versions. If yer gonna do some complex invasion, and it matters, test it first in a test game, or pay the price. 
+</p>
+</body>
+</html>

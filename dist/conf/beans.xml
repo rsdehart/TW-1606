@@ -1,0 +1,397 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+
+<beans>
+  <bean id="main-view" class="org.twdata.TW1606U.gui.View">
+    <!--<property name="reader"><ref bean="reader" /></property>-->
+    <property name="actionResolver"><ref bean="action-resolver" /></property>
+    <property name="pluginFactory"><ref bean="plugin-factory" /></property>
+    <property name="actionManager"><ref bean="action-manager" /></property>
+    <property name="resourceManager"><ref bean="resource-manager" /></property>
+    <property name="viewPath"><value>/gui/View.xml</value></property>
+    <property name="tagNames">
+        <list>
+            <value>terminal</value>
+            <value>view-frame</value>
+            <value>status-panel</value>
+            <value>status-bottom</value>
+            <value>sector-map</value>
+            <value>chat-manager</value>
+            <value>chat-tab</value>
+            <value>stats</value>
+            <value>quick-query</value>
+            <value>game-notepad</value>
+        </list>
+    </property>
+  </bean>
+  
+  <bean id="view-frame" class="javax.swing.JFrame" />
+  
+  <bean id="plugin-factory" class="org.twdata.TW1606U.SpringPluginFactory" singleton="false" />
+  <bean id="action-resolver" class="org.twdata.TW1606U.DefaultActionResolver">
+    <property name="actionManager"><ref bean="action-manager" /></property>
+  </bean>
+  
+  <bean id="action-manager" class="org.twdata.TW1606U.ActionManager">
+    <property name="indexPath"><value>/actions/index.xml</value></property>
+    <property name="resourceManager"><ref bean="resource-manager" /></property>
+  </bean>
+  
+  <bean id="message-bus" class="org.twdata.TW1606U.signal.MessageBus"/>
+    
+  <bean id="clipboard" class="org.twdata.TW1606U.ClipboardManager">
+    <property name="frame"><ref bean="view-frame" /></property>
+  </bean>  
+  
+  <bean id="resource-manager" class="org.twdata.TW1606U.ResourceManager" init-method="init">
+    <property name="backup"><ref bean="backup" /></property>
+    <property name="backupPaths">
+        <list>
+            <value>conf</value>
+            <value>gui</value>
+            <value>scripts</value>
+            <value>actions</value>
+            <value>data</value>
+        </list>
+    </property>
+  </bean>
+  
+  <bean id="backup" class="org.twdata.TW1606U.util.ZipBackup" />
+    
+  <bean id="stream-capture" class="org.twdata.TW1606U.StreamCapture">
+    <property name="streamSplitter"><ref bean="stream-splitter" /></property>
+  </bean>
+  <bean id="text-event-generator" class="org.twdata.TW1606U.TextEventGenerator">
+    <property name="streamSplitter"><ref bean="stream-splitter" /></property>
+    <property name="messageBus"><ref bean="message-bus" /></property>
+  </bean>   
+  
+  <bean id="twxproxy-importer" class="org.twdata.TW1606U.tw.data.TWXProxyImporter">
+    <property name="daoManager"><ref bean="dao-manager" /></property>
+    <property name="session"><ref bean="session" /></property>
+  </bean>
+
+  <bean id="status-bottom" class="org.twdata.TW1606U.tw.gui.StatusGroup">
+    <property name="daoManager"><ref bean="dao-manager" /></property>
+    <property name="resourceManager"><ref bean="resource-manager" /></property>
+    <property name="messageBus"><ref bean="message-bus" /></property>
+    <property name="session"><ref bean="session" /></property>
+    <property name="sessionFieldEnabler"><ref bean="session-field-enabler" /></property>
+  </bean>
+  <bean id="status-panel" class="org.twdata.TW1606U.tw.gui.StatusGroup">
+    <property name="daoManager"><ref bean="dao-manager" /></property>
+    <property name="resourceManager"><ref bean="resource-manager" /></property>
+    <property name="messageBus"><ref bean="message-bus" /></property>
+    <property name="session"><ref bean="session" /></property>
+    <property name="sessionFieldEnabler"><ref bean="session-field-enabler" /></property>
+  </bean>
+  
+  <!-- {{{ stream filters -->
+  <bean id="reader" class="org.twdata.TW1606U.StreamReader">
+    <property name="filterSource"><ref bean="stream-splitter" /></property>
+    <property name="messageBus"><ref bean="message-bus" /></property>
+  </bean>
+  
+  <bean id="stream-splitter" class="org.twdata.TW1606U.StreamSplitter">
+    <property name="filterSource"><ref bean="terminal" /></property>
+  </bean>
+  
+  <bean id="terminal" class="org.twdata.TW1606U.gui.Terminal">
+    <property name="filterSource"><ref bean="telnet" /></property>
+    <property name="resourceManager"><ref bean="resource-manager" /></property>
+    <property name="streamWriter"><ref bean="reader" /></property>
+    <property name="messageBus"><ref bean="message-bus" /></property>
+    <property name="frame"><ref bean="view-frame" /></property>
+    <property name="actionManager"><ref bean="action-manager" /></property>
+  </bean>
+  
+  <bean id="telnet" class="org.twdata.TW1606U.Telnet">
+    <property name="filterSource"><ref bean="socket" /></property>
+    <property name="terminal"><ref bean="terminal" /></property>
+    <property name="messageBus"><ref bean="message-bus" /></property>
+  </bean>
+  
+  <bean id="socket" class="org.twdata.TW1606U.Socket">
+    <property name="messageBus"><ref bean="message-bus" /></property>
+  </bean>
+  <!-- }}} -->
+  
+  <bean id="macro-recorder" class="org.twdata.TW1606U.MacroRecorder">
+    <property name="streamWriter"><ref bean="reader" /></property>
+    <property name="streamSplitter"><ref bean="stream-splitter" /></property>
+    <property name="messageBus"><ref bean="message-bus" /></property>
+  </bean>
+  
+  <bean id="session-field-enabler" class="org.twdata.TW1606U.gui.SessionFieldEnabler">
+    <property name="messageBus"><ref bean="message-bus" /></property>
+  </bean>
+  
+  <!-- {{{ actions -->
+  <!--<bean id="action.bsh" class="org.twdata.TW1606U.action.BSHAction" singleton="false">
+    <property name="beanShellHandler"><ref bean="beanshell" /></property>
+  </bean>-->
+  
+  <bean id="action.flow" class="org.twdata.TW1606U.action.FlowAction" singleton="false">
+    <property name="interpreter"><ref bean="flow-interpreter" /></property>
+    <property name="messageBus"><ref bean="message-bus" /></property>
+  </bean>
+  
+  <bean id="action.link" class="org.twdata.TW1606U.tw.gui.terminal.LinkAction" singleton="false">
+    <property name="interpreter"><ref bean="flow-interpreter" /></property>
+    <property name="messageBus"><ref bean="message-bus" /></property>
+  </bean>
+  
+  <!-- }}} -->
+
+  <!-- {{{ tradewars related -->
+  
+  <bean id="tw.lexer-manager" class="org.twdata.TW1606U.LexerManager">
+    <property name="lexerRunner"><ref bean="tw.lexerRunner" /></property>
+    <property name="streamSplitter"><ref bean="stream-splitter" /></property>
+    <property name="messageBus"><ref bean="message-bus" /></property>
+  </bean>
+  
+  <bean id="tw.lexerRunner" class="org.twdata.TW1606U.LexerRunner">
+    <property name="reader"><ref bean="reader" /></property>
+    <property name="lexerClass"><value>org.twdata.TW1606U.tw.TWLexer</value></property>
+  </bean>
+  
+  <bean id="chat.lexer-manager" class="org.twdata.TW1606U.LexerManager">
+    <property name="lexerRunner"><ref bean="chat.lexerRunner" /></property>
+    <property name="streamSplitter"><ref bean="stream-splitter" /></property>
+    <property name="messageBus"><ref bean="message-bus" /></property>
+  </bean>
+  
+  <bean id="chat.lexerRunner" class="org.twdata.TW1606U.LexerRunner">
+    <property name="reader"><ref bean="reader" /></property>
+    <property name="lexerClass"><value>org.twdata.TW1606U.tw.ChatLexer</value></property>
+  </bean>
+  
+  <bean id="parser.trade" class="org.twdata.TW1606U.tw.TradeParser">
+    <property name="daoManager"><ref bean="dao-manager" /></property>
+    <property name="session"><ref bean="session" /></property>
+  </bean>
+  
+  <bean id="parser.sector-display" class="org.twdata.TW1606U.tw.SectorDisplayParser">
+    <property name="daoManager"><ref bean="dao-manager" /></property>
+    <property name="session"><ref bean="session" /></property>
+  </bean>
+  
+  <bean id="parser.status" class="org.twdata.TW1606U.tw.StatusParser">
+    <property name="daoManager"><ref bean="dao-manager" /></property>
+    <property name="session"><ref bean="session" /></property>
+  </bean>
+  
+  <bean id="parser.scan" class="org.twdata.TW1606U.tw.ScanParser">
+    <property name="daoManager"><ref bean="dao-manager" /></property>
+    <property name="session"><ref bean="session" /></property>
+  </bean>
+  
+  <bean id="parser.cim" class="org.twdata.TW1606U.tw.CimParser">
+    <property name="daoManager"><ref bean="dao-manager" /></property>
+    <property name="session"><ref bean="session" /></property>
+  </bean>
+  
+  <bean id="parser.computer" class="org.twdata.TW1606U.tw.ComputerParser">
+    <property name="daoManager"><ref bean="dao-manager" /></property>
+    <property name="session"><ref bean="session" /></property>
+  </bean>
+  
+  
+  <bean id="parser.planet" class="org.twdata.TW1606U.tw.PlanetParser">
+    <property name="daoManager"><ref bean="dao-manager" /></property>
+    <property name="session"><ref bean="session" /></property>
+  </bean>
+  
+  <bean id="session" class="org.twdata.TW1606U.tw.TWSession">
+    <property name="daoManager"><ref bean="dao-manager" /></property>
+    <property name="sessionDao"><ref bean="sessionDao" /></property>
+    <property name="messageBus"><ref bean="message-bus" /></property>
+  </bean>
+  
+   <bean id="sector-map" class="org.twdata.TW1606U.tw.gui.SectorMap">
+    <property name="daoManager"><ref bean="dao-manager" /></property>
+    <property name="messageBus"><ref bean="message-bus" /></property>
+    <property name="resourceManager"><ref bean="resource-manager" /></property>
+    <property name="session"><ref bean="session" /></property>
+    <property name="sessionFieldEnabler"><ref bean="session-field-enabler" /></property>
+  </bean>
+  
+  <bean id="game-notepad" class="org.twdata.TW1606U.tw.gui.GameNotepad">
+    <property name="messageBus"><ref bean="message-bus" /></property>
+    <property name="resourceManager"><ref bean="resource-manager" /></property>
+    <property name="session"><ref bean="session" /></property>
+    <property name="gameDao"><ref bean="gameDao" /></property>
+    <property name="sessionFieldEnabler"><ref bean="session-field-enabler" /></property>
+  </bean>
+  
+  <bean id="chat-manager" class="org.twdata.TW1606U.tw.gui.chat.ChatManager">
+    <property name="messageBus"><ref bean="message-bus" /></property>
+    <property name="resourceManager"><ref bean="resource-manager" /></property>
+    <property name="session"><ref bean="session" /></property>
+  </bean>
+  
+  <bean id="chat-tab" class="org.twdata.TW1606U.tw.gui.chat.ChatTab"  singleton="false">
+    <property name="messageBus"><ref bean="message-bus" /></property>
+    <property name="streamFilter"><ref bean="reader" /></property>
+  </bean>
+  
+  <!--
+  <bean id="quick-query" class="org.twdata.TW1606U.tw.gui.ScriptQuickQuery">
+    <property name="interpreter"><ref bean="flow-interpreter" /></property>
+    <property name="resourceManager"><ref bean="resource-manager" /></property>
+    <property name="globalScript"><value>/scripts/quick-query.js</value></property>
+  </bean>
+  -->
+  <bean id="quick-query" class="org.twdata.TW1606U.tw.gui.XPathQuickQuery">
+    <property name="daoManager"><ref bean="dao-manager" /></property>
+    <property name="session"><ref bean="session" /></property>
+    <property name="sessionFieldEnabler"><ref bean="session-field-enabler" /></property>
+  </bean>
+  
+  <bean id="stats" class="org.twdata.TW1606U.tw.gui.Statistics">
+    <property name="daoManager"><ref bean="dao-manager" /></property>
+    <property name="resourceManager"><ref bean="resource-manager" /></property>
+    <property name="messageBus"><ref bean="message-bus" /></property>
+    <property name="session"><ref bean="session" /></property>
+    <property name="sessionFieldEnabler"><ref bean="session-field-enabler" /></property>
+  </bean>
+  
+  <bean id="sector-graph" class="org.twdata.TW1606U.tw.graph.SectorGraph">
+    <property name="sectorDao"><ref bean="sectorDao" /></property>
+    <property name="messageBus"><ref bean="message-bus" /></property>
+  </bean>
+  
+  <!-- }}} -->
+  
+  <!-- {{{ script related -->
+  <bean id="beanshell" class="org.twdata.TW1606U.script.BeanShellHandler">
+    <property name="resourceManager"><ref bean="resource-manager" /></property>
+  </bean>
+  
+  <bean id="flow-interpreter" class="org.twdata.TW1606U.script.flow.javascript.JavaScriptInterpreter"
+    init-method="init">
+    <property name="resourceManager"><ref bean="resource-manager" /></property>
+    <property name="continuationsManager"><ref bean="continuations-manager" /></property>
+    <property name="globalScript"><value>/scripts/global.js</value></property>
+    <property name="enableDebugger"><value>false</value></property>
+    <property name="errorReporter"><ref bean="flow-error-reporter" /></property>
+  </bean>
+  
+  <bean id="flow-error-reporter" class="org.twdata.TW1606U.script.flow.javascript.JSErrorReporter">
+    <property name="frame"><ref bean="view-frame" /></property>
+  </bean>
+  
+  <bean id="continuations-manager" class="org.twdata.TW1606U.script.flow.ContinuationsManagerImpl" />
+    
+  
+  <bean id="bsf-runner" class="org.twdata.TW1606U.script.BSFRunner">
+    <property name="messageBus"><ref bean="message-bus" /></property>
+  </bean>
+  <!-- }}} -->
+  
+  <!-- {{{ general dao -->
+  <bean id="dao-manager" class="org.twdata.TW1606U.data.DaoManagerImpl" />
+  <bean id="datastore" class="org.twdata.TW1606U.data.JDBMDatastore" init-method="init">
+    <property name="daoManager"><ref bean="dao-manager" /></property>
+    <property name="resourceManager"><ref bean="resource-manager" /></property>
+    <property name="modelSupport"><ref bean="model-support" /></property>
+    <property name="messageBus"><ref bean="message-bus" /></property>
+  </bean>
+  
+  <bean id="model-support" class="org.twdata.TW1606U.tw.data.TWModelSupport" />
+  <!-- }}} -->
+
+  <!-- {{{ general dao -->
+  <bean id="sessionDao" class="org.twdata.TW1606U.data.SessionMapDao">
+    <property name="daoManager"><ref bean="dao-manager" /></property>
+    <property name="datastore"><ref bean="datastore" /></property>
+    <property name="messageBus"><ref bean="message-bus" /></property>
+  </bean>
+  <!-- }}} -->
+  
+  <!-- {{{ general models -->
+  <bean id="sessionModel" class="org.twdata.TW1606U.data.SessionImpl" singleton="false" />
+  <!-- }}} -->  
+  
+  
+  <!-- {{{ tw dao -->
+  <bean id="corporationDao" class="org.twdata.TW1606U.tw.data.CorporationMapDao">
+    <property name="daoManager"><ref bean="dao-manager" /></property>
+    <property name="datastore"><ref bean="datastore" /></property>
+    <property name="messageBus"><ref bean="message-bus" /></property>
+  </bean>
+  <bean id="gameDao" class="org.twdata.TW1606U.tw.data.GameMapDao">
+    <property name="daoManager"><ref bean="dao-manager" /></property>
+    <property name="datastore"><ref bean="datastore" /></property>
+    <property name="messageBus"><ref bean="message-bus" /></property>
+  </bean>
+  <bean id="planetDao" class="org.twdata.TW1606U.tw.data.PlanetMapDao">
+    <property name="daoManager"><ref bean="dao-manager" /></property>
+    <property name="datastore"><ref bean="datastore" /></property>
+    <property name="messageBus"><ref bean="message-bus" /></property>
+  </bean>
+  <bean id="planetTypeDao" class="org.twdata.TW1606U.tw.data.PlanetTypeMapDao">
+    <property name="daoManager"><ref bean="dao-manager" /></property>
+    <property name="datastore"><ref bean="datastore" /></property>
+    <property name="messageBus"><ref bean="message-bus" /></property>
+  </bean>
+  <bean id="playerDao" class="org.twdata.TW1606U.tw.data.PlayerMapDao">
+    <property name="daoManager"><ref bean="dao-manager" /></property>
+    <property name="datastore"><ref bean="datastore" /></property>
+    <property name="messageBus"><ref bean="message-bus" /></property>
+  </bean>
+  <bean id="portDao" class="org.twdata.TW1606U.tw.data.PortMapDao">
+    <property name="daoManager"><ref bean="dao-manager" /></property>
+    <property name="datastore"><ref bean="datastore" /></property>
+    <property name="messageBus"><ref bean="message-bus" /></property>
+  </bean>
+  <bean id="sectorDao" class="org.twdata.TW1606U.tw.data.SectorMapDao">
+    <property name="daoManager"><ref bean="dao-manager" /></property>
+    <property name="datastore"><ref bean="datastore" /></property>
+    <property name="messageBus"><ref bean="message-bus" /></property>
+  </bean>
+  <bean id="shipDao" class="org.twdata.TW1606U.tw.data.ShipMapDao">
+    <property name="daoManager"><ref bean="dao-manager" /></property>
+    <property name="datastore"><ref bean="datastore" /></property>
+    <property name="messageBus"><ref bean="message-bus" /></property>
+  </bean>
+  <bean id="shipTypeDao" class="org.twdata.TW1606U.tw.data.ShipTypeMapDao">
+    <property name="daoManager"><ref bean="dao-manager" /></property>
+    <property name="datastore"><ref bean="datastore" /></property>
+    <property name="messageBus"><ref bean="message-bus" /></property>
+  </bean>
+  <!-- }}} -->
+  
+  <!-- {{{ tw models -->
+  <bean id="gameModel" class="org.twdata.TW1606U.tw.model.GameImpl" singleton="false">
+    <property name="daoManager"><ref bean="dao-manager" /></property>
+  </bean>
+  <bean id="corporationModel" class="org.twdata.TW1606U.tw.model.CorporationImpl" singleton="false">
+    <property name="daoManager"><ref bean="dao-manager" /></property>
+  </bean>
+  <bean id="planetModel" class="org.twdata.TW1606U.tw.model.PlanetImpl" singleton="false">
+    <property name="daoManager"><ref bean="dao-manager" /></property>
+  </bean>
+  <bean id="planetTypeModel" class="org.twdata.TW1606U.tw.model.PlanetTypeImpl" singleton="false">
+    <property name="daoManager"><ref bean="dao-manager" /></property>
+  </bean>
+  <bean id="playerModel" class="org.twdata.TW1606U.tw.model.PlayerImpl" singleton="false">
+    <property name="daoManager"><ref bean="dao-manager" /></property>
+  </bean>
+  <bean id="portModel" class="org.twdata.TW1606U.tw.model.PortImpl" singleton="false">
+    <property name="daoManager"><ref bean="dao-manager" /></property>
+  </bean>
+  <bean id="sectorModel" class="org.twdata.TW1606U.tw.model.SectorImpl" singleton="false">
+    <property name="daoManager"><ref bean="dao-manager" /></property>
+  </bean>
+  <bean id="shipModel" class="org.twdata.TW1606U.tw.model.ShipImpl" singleton="false">
+    <property name="daoManager"><ref bean="dao-manager" /></property>
+  </bean>
+  <bean id="shipTypeModel" class="org.twdata.TW1606U.tw.model.ShipTypeImpl" singleton="false">
+    <property name="daoManager"><ref bean="dao-manager" /></property>
+  </bean>
+  <!-- }}} -->
+  
+</beans>

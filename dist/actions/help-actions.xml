@@ -1,0 +1,8 @@
+<actions>
+    <global>
+        importClass(Packages.org.twdata.TW1606U.action.JHelpAction);
+    </global>
+    <action id="help_show">
+        JHelpAction.showHelp();
+    </action>
+</actions>    

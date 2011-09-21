@@ -1,0 +1,12 @@
+<panel layout="BorderLayout" border="TitledBorder(Stats)">
+    <vbox  constraints="BorderLayout.NORTH">
+        <panel layout="FlowLayout(FlowLayout.LEFT)">
+            <label id="lbl" font="SansSerif-PLAIN-10" text="Profit for Session:  " /><label id="profitPerSession" refid="lbl" text="" />
+        </panel>
+        <panel layout="FlowLayout(FlowLayout.LEFT)">
+            <label refid="lbl" text="Profit per Turn:  " /><label id="profitPerTurn" refid="lbl" text=""/>
+        </panel>
+    </vbox>
+    <glue constraints="BorderLayout.CENTER" />
+</panel>    
+    
