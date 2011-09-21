@@ -4,10 +4,10 @@
 <jhelpdev version="1.2">
  <config>
   <project>
-tw1606ReferenceLibrary
+KokuaReferenceLibrary
   </project>
   <projectdir>
-/home/mrdon/dev/tw1606/src/docs
+/home/mrdon/dev/kokua/src/docs
   </projectdir>
   <startpage>
 index.html
@@ -18,7 +18,7 @@ index.html
  </config>
  <view>
   <helptitle>
-tw1606 Reference Library
+Kokua Reference Library
   </helptitle>
   <toc showing="yes" label="TOC"/>
 

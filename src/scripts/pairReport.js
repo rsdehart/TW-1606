@@ -1,5 +1,5 @@
 function showTable(title, data, titles) {
-    var view = tw1606.getBean("view-frame");
+    var view = tw1606u.getBean("view-frame");
     frame = new JFrame(title);
     table = new JTable(data, titles);
     table.doLayout();
@@ -9,7 +9,7 @@ function showTable(title, data, titles) {
     frame.show();
 }    
 
-sectors = tw1606.getBean("sectorDao").getAll().toArray();
+sectors = tw1606u.getBean("sectorDao").getAll().toArray();
 
 var data = new Array();
 var dataPos = -1;

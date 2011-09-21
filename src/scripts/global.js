@@ -9,12 +9,12 @@
 
 var suicide = new Continuation();
 
-importPackage(Packages.org.twdata.TW1606.tw.model);
-importPackage(Packages.org.twdata.TW1606.tw.data);
-importPackage(Packages.org.twdata.TW1606.tw.signal);
-importPackage(Packages.org.twdata.TW1606.signal);
-importPackage(Packages.org.twdata.TW1606.data);
-importPackage(Packages.org.twdata.TW1606.gui);
+importPackage(Packages.org.twdata.TW1606U.tw.model);
+importPackage(Packages.org.twdata.TW1606U.tw.data);
+importPackage(Packages.org.twdata.TW1606U.tw.signal);
+importPackage(Packages.org.twdata.TW1606U.signal);
+importPackage(Packages.org.twdata.TW1606U.data);
+importPackage(Packages.org.twdata.TW1606U.gui);
 importPackage(Packages.org.werx.framework.bus);
 importPackage(Packages.javax.swing);
 importPackage(Packages.java.awt);
@@ -26,7 +26,7 @@ function waitFor() {
     if (!wholeLine) wholeLine = false;
     if (!timeout) timeout = 10;
     
-    var res = tw1606.textEvents.waitForString(txt, timeout, wholeLine);
+    var res = tw1606u.textEvents.waitForString(txt, timeout, wholeLine);
     //if (!res) {
     //    suicide();
     //} else {
@@ -35,11 +35,11 @@ function waitFor() {
 }
 
 function getLastLine() {
-    return new String(tw1606.textEvents.getLastLine());
+    return new String(tw1606u.textEvents.getLastLine());
 }
 
 function send(txt) {
-    tw1606.send(txt);
+    tw1606u.send(txt);
 }
 
 function waitMux() {
@@ -48,18 +48,18 @@ function waitMux() {
     var wholeLine = arguments[2];
     if (!wholeLine) wholeLine = true;
     
-    return tw1606.textEvents.waitMux(arr, timeout, wholeLine);
+    return tw1606u.textEvents.waitMux(arr, timeout, wholeLine);
 }
 
 function alert(msg) {
-    var view = tw1606.getBean("view-frame");
+    var view = tw1606u.getBean("view-frame");
     JOptionPane.showMessageDialog(view, msg);
 }
 
 function confirm(msg, title) {
 	if (!title)
 		title = msg;
-    var view = tw1606.getBean("view-frame");
+    var view = tw1606u.getBean("view-frame");
     opt = JOptionPane.showConfirmDialog(view, msg, title, JOptionPane.OK_CANCEL_OPTION);
     return (opt == JOptionPane.OK_OPTION);
 }
@@ -67,12 +67,12 @@ function confirm(msg, title) {
 function prompt(msg, defValue) {
 	if (!defValue)
 		defValue = "";
-    var view = tw1606.getBean("view-frame");
+    var view = tw1606u.getBean("view-frame");
     return JOptionPane.showInputDialog(view, msg, defValue);
 }
 
 function showTable(title, data, titles, sortIndex) {
-    var view = tw1606.getBean("view-frame");
+    var view = tw1606u.getBean("view-frame");
     frame = new JFrame(title);
     if (sortIndex == null) {
         table = new SortedTable(data, titles);
@@ -99,7 +99,7 @@ function sendPageAndWait(uri, bizData, timeToLive)
 function _sendPageAndWait(uri, bizData, timeToLive)
 {
   var k = new Continuation();
-  var kont = new ContinuationWrapper(tw1606, k);
+  var kont = new ContinuationWrapper(tw1606u, k);
   // do stuff
   suicide();
 }
@@ -111,7 +111,7 @@ function sendPageAndContinue(uri, bizData)
 
 function sendPage(uri, bizData)
 {
-  //tw1606.forwardTo("tw1606://" + tw1606.environment.getURIPrefix() + uri,
+  //tw1606u.forwardTo("tw1606u://" + tw1606u.environment.getURIPrefix() + uri,
   //                 bizData, null);
 }
 

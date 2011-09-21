@@ -1,12 +1,12 @@
 <actions>
     <global>
     <![CDATA[
-    	tw1606.load("/scripts/tw-basic.js");
-        var frame = tw1606.getBean("view-frame");
+    	tw1606u.load("/scripts/tw-basic.js");
+        var frame = tw1606u.getBean("view-frame");
         
         function findPairs(prod1, prod2, prodFunc) {
-            sectors = tw1606.getBean("sectorDao").getAll().toArray();
-            curSector = tw1606.getBean("session").sector;
+            sectors = tw1606u.getBean("sectorDao").getAll().toArray();
+            curSector = tw1606u.getBean("session").sector;
         
             var data = new Array();
             var dataPos = -1;
@@ -87,9 +87,9 @@
     </action>
     <action id="report_clusterE" onConnect="action.setEnabled(true);" onDisconnect="action.setEnabled(false);" enabled="false">
       <![CDATA[
-      ports = tw1606.getBean("portDao").getAll().toArray();
-      trader = tw1606.getBean("session").trader;
-      curSector = tw1606.getBean("session").sector
+      ports = tw1606u.getBean("portDao").getAll().toArray();
+      trader = tw1606u.getBean("session").trader;
+      curSector = tw1606u.getBean("session").sector
       var data = new Array();
       var dataPos = -1;
       var count;
@@ -124,6 +124,14 @@
       }
       titles = ["Center Port", "xxB ports", "Contains your fighters", "Distance"];
       showTable("xxB Cluster", data, titles, 1);
+      ]]>
+    </action>
+    <action id="report_planets" onConnect="action.setEnabled(true);" onDisconnect="action.setEnabled(false);" enabled="false">
+      <![CDATA[
+        prodFunc = new Function("p", "prod1", "prod2", "return p.buysProduct(prod1) && p.buysProduct(prod2)");
+        data = findPairs(Port.EQUIPMENT, Port.EQUIPMENT, prodFunc);
+        titles = ["Sector", "From Port", "To Sector", "To Port Type", "Equipment", "Equipment", "Available", "Distance"]
+        showTable("Planets", data, titles, 7);
       ]]>
     </action>
 </actions>    

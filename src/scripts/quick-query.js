@@ -7,7 +7,7 @@
 // Date: March 19, 2002
 //
 
-var session = tw1606.getBean("session");
+var session = tw1606u.getBean("session");
 var sector = session.sector;
 var game = session.game;
 var trader = session.trader;

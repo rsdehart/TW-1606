@@ -1,4 +1,4 @@
-tw1606.load("/scripts/tw-basic.js");
+tw1606u.load("/scripts/tw-basic.js");
 
 function stopAllScripts() {
 	send("$z");

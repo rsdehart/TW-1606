@@ -3,7 +3,7 @@
 
 <helpset version="1.0">
  <title>
-tw1606 Reference Library
+Kokua Reference Library
  </title>
  <maps>
   <homeID>
@@ -23,7 +23,7 @@ TOC
 javax.help.TOCView
   </type>
   <data>
-tw1606ReferenceLibraryTOC.xml
+KokuaReferenceLibraryTOC.xml
   </data>
  </view>
  <view>
@@ -37,7 +37,7 @@ Index
 javax.help.IndexView
   </type>
   <data>
-tw1606ReferenceLibraryIndex.xml
+KokuaReferenceLibraryIndex.xml
   </data>
  </view>
  <view>
@@ -55,7 +55,7 @@ JavaHelpSearch
   </data>
  </view>
 <presentation default="true">
-    <name>tw1606 Reference Library</name>
+    <name>Kokua Reference Library</name>
     <image>turtleSmall</image>
 </presentation>
 </helpset>

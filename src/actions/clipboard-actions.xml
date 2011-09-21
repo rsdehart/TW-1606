@@ -1,7 +1,7 @@
 <actions>
     <global>
-        terminal = tw1606.getBean("terminal");
-        clipboard = tw1606.getBean("clipboard");
+        terminal = tw1606u.getBean("terminal");
+        clipboard = tw1606u.getBean("clipboard");
     </global>   
     <action id="copy">
         data = terminal.getSelection();

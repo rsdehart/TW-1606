@@ -1,8 +1,8 @@
 <actions>
     <global>
-    	tw1606.load("/scripts/twxproxy.js");
-        session = tw1606.getBean("session");
-        sectorDao = tw1606.getBean("sectorDao");
+    	tw1606u.load("/scripts/twxproxy.js");
+        session = tw1606u.getBean("session");
+        sectorDao = tw1606u.getBean("sectorDao");
     </global>
     <action id="twxproxy_stop" onConnect="action.setEnabled(true);" onDisconnect="action.setEnabled(false);" enabled="false">
         stopAllScripts();

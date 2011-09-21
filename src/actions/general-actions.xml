@@ -1,6 +1,6 @@
 <actions>
     <global>
-        frame = tw1606.getBean("view-frame");
+        frame = tw1606u.getBean("view-frame");
     </global>
     <action id="exit">
         dialog = new JDialog(frame, false);
@@ -17,6 +17,6 @@
         
         dialog.show();
         dialog.repaint();
-        Packages.org.twdata.TW1606.tw1606.getInstance().shutdown();
+        Packages.org.twdata.TW1606U.TW1606u.getInstance().shutdown();
     </action>
 </actions>    

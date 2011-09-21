@@ -1,8 +1,8 @@
 <actions>
     <global>
-        var frame = tw1606.getBean("view-frame");
-        var flow = tw1606.getBean("flow-interpreter");
-        var actions = tw1606.getBean("action-manager");
+        var frame = tw1606u.getBean("view-frame");
+        var flow = tw1606u.getBean("flow-interpreter");
+        var actions = tw1606u.getBean("action-manager");
         var srcStart = actions.getAction("script_run");
         var srcStop = actions.getAction("script_stop");
         var file;
@@ -32,7 +32,7 @@
         dlg.showOpenDialog(frame);
         file = dlg.getSelectedFile();
         if (file != null) {
-            var dlog = new Dialog(tw1606, file);
+            var dlog = new Dialog(tw1606u, file);
             dlog.jdialog.pack();
             dlog.show();
         }

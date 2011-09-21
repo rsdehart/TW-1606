@@ -1,15 +1,15 @@
 function getSectorsInRange(s, range) {
-    var sg = tw1606.getBean("sector-graph");
+    var sg = tw1606u.getBean("sector-graph");
     return sg.getSectorsWithinRange(s, range);
 }
 
 function getShortestPath(start, end) {
-    var sg = tw1606.getBean("sector-graph");
+    var sg = tw1606u.getBean("sector-graph");
     return sg.shortestPath(start, end);;
 }
 
 function distanceBetweenSectors(start, end) {
-    var sg = tw1606.getBean("sector-graph");
+    var sg = tw1606u.getBean("sector-graph");
     try {
         lst = sg.shortestPath(start, end);
     } catch (e) {

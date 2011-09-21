@@ -1,11 +1,11 @@
 <actions>
     <global>
-        socket = tw1606.getBean("socket");
-        terminal = tw1606.getBean("terminal");
-        status = tw1606.getBean("status-bottom");
-        dm = tw1606.getBean("dao-manager");
-        bus = tw1606.getBean("message-bus");
-        session = tw1606.getBean("session");
+        socket = tw1606u.getBean("socket");
+        terminal = tw1606u.getBean("terminal");
+        status = tw1606u.getBean("status-bottom");
+        dm = tw1606u.getBean("dao-manager");
+        bus = tw1606u.getBean("message-bus");
+        session = tw1606u.getBean("session");
         sesDao = dm.getDao("session");
         var ses;
         
@@ -57,7 +57,7 @@
         }
     </global>
     <action id="connect" onConnect="action.setEnabled(false);" onDisconnect="action.setEnabled(true)" enabled="true">
-        gui = new Dialog(tw1606, "/gui/connection-dialog.xml");
+        gui = new Dialog(tw1606u, "/gui/connection-dialog.xml");
         var model = gui.sessionName.model;
         var sessions = sesDao.getAll().toArray();
         for (var x=0; x &lt; sessions.length; x++) {

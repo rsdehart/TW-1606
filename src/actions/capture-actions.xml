@@ -1,8 +1,8 @@
 <actions>
     <global>
-        capture = tw1606.getBean("stream-capture");
-        actions = tw1606.getBean("action-manager");
-        frame = tw1606.getBean("view-frame");
+        capture = tw1606u.getBean("stream-capture");
+        actions = tw1606u.getBean("action-manager");
+        frame = tw1606u.getBean("view-frame");
     </global>
     <action id="capture_stop" onConnect="action.setEnabled(false);" onDisconnect="action.setEnabled(false);" enabled="false">
         actions.getAction("capture_stop").setEnabled(false);
