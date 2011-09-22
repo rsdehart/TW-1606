@@ -39,7 +39,9 @@ public class StatusGroup extends JPanel {
     public JTextField experience;
     public JTextField currentSector;
     public JTextField credits;
-    
+    public JTextField figs;
+    public JTextField shields;
+
     public JTextField holdsTotal;
     public JTextField holdsFuel;
     public JTextField holdsOrg;
@@ -96,6 +98,8 @@ public class StatusGroup extends JPanel {
             if (experience != null) enabler.addField(experience);
             if (currentSector != null) enabler.addField(currentSector);
             if (credits != null) enabler.addField(credits);
+            if (figs != null) enabler.addField(figs);
+            if (shields != null) enabler.addField(shields);
             
             if (holdsTotal != null) enabler.addField(holdsTotal);
             if (holdsFuel != null) enabler.addField(holdsFuel);
@@ -157,6 +161,15 @@ public class StatusGroup extends JPanel {
             if (credits != null && trader != null) {
                 credits.setText(String.valueOf(trader.getCredits()));
             }
+
+            if (figs != null && trader != null) {
+                figs.setText(String.valueOf(trader.getCurShip().getFighters()));
+            }
+
+            if (shields != null && trader != null) {
+                shields.setText(String.valueOf(trader.getCurShip().getShields()));
+            }
+
         }
     }
     
