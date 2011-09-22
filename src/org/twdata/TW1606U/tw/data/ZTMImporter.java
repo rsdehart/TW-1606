@@ -2,6 +2,7 @@ package org.twdata.TW1606U.tw.data;
 
 import jdbm.*;
 import java.io.*;
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import org.twdata.TW1606U.data.*;
 import org.twdata.TW1606U.tw.data.*;
 import org.twdata.TW1606U.tw.*;
@@ -57,6 +58,11 @@ public class ZTMImporter {
             while ((input = din.readLine()) != null) {
                 if (input!=null)
                 {
+                    try {
+                     Thread.sleep(10);
+                       } catch (InterruptedException e) {
+                          log.debug("ZTM Sleep exception: "+e.getMessage());
+                        }
                     log.info(input);
                 status.setGeneralStatus("Importing "+input);
                 cimParser.parseWarps(input);
