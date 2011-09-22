@@ -30,7 +30,6 @@
     </action>
     <action id="ztm_import">
         importer = tw1606u.getBean("ztm-importer");
-        importer.cimParser.setDaoManager(tw1606u.getBean("dao-manager"));
         dlg = new JFileChooser();
         dlg.setDialogTitle("Choose the ZTM export file");
         dlg.showOpenDialog(frame);
@@ -38,9 +37,9 @@
         if (file != null) {
             function importData() {
               if (importer.importData(frame, file.toURL())) {
-                alert("ZTM import completed");
+//                alert("ZTM import completed");
               } else {
-                alert("ZTM import cancelled or unable to complete");
+//                alert("ZTM import cancelled or unable to complete");
               }
             }
             obj = new Object();
