@@ -21,6 +21,14 @@
     <label text="Credits" refid="lbl" />
     <textfield id="credits" refid="currentSector" />
   </panel>
+  <panel refid="line">
+    <label text="Figs" refid="lbl" />
+    <textfield id="figs" refid="currentSector" />
+  </panel>
+  <panel refid="line">
+    <label text="Shields" refid="lbl" />
+    <textfield id="shields" refid="currentSector" />
+  </panel>
 </vbox>
 <vbox border="TitledBorder(Holds)">
   <panel refid="line">
