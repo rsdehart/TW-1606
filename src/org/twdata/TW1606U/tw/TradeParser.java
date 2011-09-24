@@ -4,6 +4,8 @@ import java.util.*;
 import java.util.regex.*;
 
 import org.twdata.TW1606U.tw.model.*;
+import org.twdata.TW1606U.Socket;
+import org.twdata.TW1606U.TW1606u;
 
 public class TradeParser extends AbstractParser {
 
@@ -11,18 +13,27 @@ public class TradeParser extends AbstractParser {
     private Pattern dockedPtn;
     private Pattern statusPtn;
     private Pattern holdFinePtn;
-    
+    private Pattern buyPtn;
+    private Pattern sellPtn;
+
     private int prodId;
     private Port port;
     private Ship ship;
     
+    private Socket socket;
+    private int offernumber;
     
     public TradeParser() {
         super();
         prodPtn = Pattern.compile("([BS])[a-z]+\\s+(\\d+)\\s+(\\d+)%\\s+(\\d+)");
         dockedPtn = Pattern.compile("(.*) (docked|just left)");
         statusPtn = Pattern.compile("([0-9,]+) credits and ([0-9,]+) empty");
+        buyPtn = Pattern.compile("We'll buy them for ([0-9,]+) credits.");
+        sellPtn = Pattern.compile("We'll sell them for ([0-9,]+) credits.");
+
         holdFinePtn = Pattern.compile("fines you ([0-9,]+) Cargo");
+
+
     }
     
     public void reset() {
@@ -31,6 +42,8 @@ public class TradeParser extends AbstractParser {
         ship = session.getTrader().getCurShip();
         port = c.getPort();
         port.setVisited(true);
+
+        offernumber=0;
     }
    
     public void parseCreditsAndHolds(String line) {
@@ -68,6 +81,26 @@ public class TradeParser extends AbstractParser {
                 portDao.update(port);
                 shipDao.update(ship);
             }
+        }
+    }
+
+    public void parseBuy(String line) {
+        Matcher m = buyPtn.matcher(line);
+        if (m.find()) {
+            int amt = parseInt(m.group(1));
+            amt+=(amt*0.03);
+            log.debug("Buying product ("+amt+"):"+line);
+        }
+    }
+
+    public void parseSell(String line) {
+
+        Matcher m = sellPtn.matcher(line);
+        if (m.find()) {
+            int amt = parseInt(m.group(1));
+            amt-=(amt*0.03);
+
+            log.debug("Selling product ("+amt+"):"+line);
         }
     }
     

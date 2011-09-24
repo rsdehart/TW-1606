@@ -224,6 +224,14 @@ NAME=([A-Za-z0-9"!""-"".""'"" ""*"])+
     tradeParser.parseCreditsAndHolds(yytext());
 }
 
+<COMMERCEREPORT> "We'll buy them for "{NUMBER}" credits." {
+    tradeParser.parseBuy(yytext());
+}
+
+<COMMERCEREPORT> "We'll sell them for "{NUMBER}" credits." {
+    tradeParser.parseSell(yytext());
+}
+
 <YYINITIAL> "fines you "{NUMBER}" Cargo Hold" {
     tradeParser.parseBusted(yytext());
 }

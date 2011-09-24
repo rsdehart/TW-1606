@@ -73,6 +73,7 @@ public class StatusParser extends AbstractParser {
         infoPtn = new Pattern[] {
             Pattern.compile("Trader Name\\s+: (.*)"),
             Pattern.compile("Exp\\s+: ([0-9,]+) points, Alignment=(-?[0-9,]+)"),
+            Pattern.compile("Times Blown Up\\s+: ([0-9,]+)"),
             Pattern.compile("Corp\\s+# (\\d+), (.*)"),
             Pattern.compile("Ship Name\\s+: (.*)"),
             Pattern.compile("Ship Info\\s+: (.*) Ported"),
@@ -80,6 +81,7 @@ public class StatusParser extends AbstractParser {
             Pattern.compile("Turns left\\s+: (\\d+|Unlimited)"),
             Pattern.compile("Total Holds\\s+: (\\d+) -( Fuel Ore=(\\d+))?( Organics=(\\d+))?( Equipment=(\\d+))?( Colonists=(\\d+))?"),
             Pattern.compile("Fighters\\s+: ([0-9,]+)"),
+            Pattern.compile("Shield points\\s+: ([0-9,]+)"),
             Pattern.compile("Credits\\s+: ([0-9,]+)")
         };
         
@@ -269,30 +271,30 @@ public class StatusParser extends AbstractParser {
                           t.setExperience(parseInt(m.group(1), 0));
                           t.setAlignment(parseInt(m.group(2), 0));
                           break;
-                case 2  : t = session.getTrader();
+                case 3  : t = session.getTrader();
                           Corporation c = corpDao.get(parseInt(m.group(1)), true);
                           c.setName(m.group(2));
                           t.setCorporation(c);
                           break;
-                case 3  : s = session.getTrader().getCurShip();
+                case 4  : s = session.getTrader().getCurShip();
                           if (s == null) {
                               s = shipDao.create(m.group(1));
                               session.getTrader().setCurShip(s);
                           }
                           s.setName(m.group(1));
                           break;
-                case 4  : st = findShipType(m.group(1));
+                case 5  : st = findShipType(m.group(1));
                           session.getTrader().getCurShip().setShipType(st);
                           break;
-                case 5  : int ttw = parseInt(m.group(1));
+                case 6  : int ttw = parseInt(m.group(1));
                           st = session.getTrader().getCurShip().getShipType();
                           if (st != null) {
                               session.getTrader().getCurShip().getShipType().setTurnsPerWarp(ttw);
                           }
                           break;
-                case 6  : session.getTrader().setTurns(parseInt(m.group(1), 0));
+                case 7  : session.getTrader().setTurns(parseInt(m.group(1), 0));
                           break;
-                case 7  : s = session.getTrader().getCurShip();
+                case 8  : s = session.getTrader().getCurShip();
                           s.clearHolds();
                           s.setHolds(parseInt(m.group(1), 0));
                           for (int x=2; x<=8; x+=2) {
@@ -311,18 +313,22 @@ public class StatusParser extends AbstractParser {
                               } 
                           }
                           break;
-                case 8  : s = session.getTrader().getCurShip();
+                case 9  : s = session.getTrader().getCurShip();
                           s.setFighters(parseInt(m.group(1), 0));
+                          shipDao.update(s);
                           break;
-                case 9  : t = session.getTrader();
+                case 10  : s = session.getTrader().getCurShip();
+                          s.setShields(parseInt(m.group(1), 0));
+                          shipDao.update(s);
+                          break;
+                case 11  : t = session.getTrader();
                           t.setCredits(parseInt(m.group(1), 0));
                           playerDao.update(t);
-                          shipDao.update(t.getCurShip());
                           break;
             }
             infoIndex++;
         } else {
-            // In case the trader isn't in a corporation
+           //  In case the trader isn't in a corporation
             if (infoIndex==2) {
                 infoIndex++;
                 parseInfoLine(line);
