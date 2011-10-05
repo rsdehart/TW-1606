@@ -348,7 +348,7 @@ public class ChatLexer implements Lexer {
       System.arraycopy(zzBuffer, 0, newBuffer, 0, zzBuffer.length);
       zzBuffer = newBuffer;
     }
-
+log.debug(zzEndRead);
     /* finally: fill the buffer with new input */
     int numRead = zzReader.read(zzBuffer, zzEndRead,
                                             zzBuffer.length-zzEndRead);
@@ -602,6 +602,7 @@ public class ChatLexer implements Lexer {
         case 3: 
           { char typeChar = yytext().charAt(0);
   int type = -1;
+  int firstSpace;
   switch (typeChar) {
     case 'P' : type = ChatSignal.PRIV; break;
     case 'F' : type = ChatSignal.FEDCOM; break;
@@ -609,11 +610,9 @@ public class ChatLexer implements Lexer {
   }
   String txt = yytext().substring(2, yytext().length() - 1);
   
-  Pattern ptn = Pattern.compile("[ ]{2,}");
-  Matcher m = ptn.matcher(txt);
-  if (m.find()) {
-    String name = txt.substring(0, m.start());
-    String msg = txt.substring(m.end());
+  if (txt.length() > 7) {
+    String name = txt.substring(0, 7).trim();
+    String msg = txt.substring(7);
     Player p = playerDao.get(name, Player.TRADER, true);
     if (log.isDebugEnabled()) {
       log.debug("Receiving message - type:"+type+" from:"+name+" msg:"+msg);

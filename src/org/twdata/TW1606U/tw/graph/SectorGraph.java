@@ -14,12 +14,12 @@ import org.apache.log4j.Logger;
 
 
 public class SectorGraph {
-    
+
     private static final Logger log = Logger.getLogger(SectorGraph.class);
-    
+
     private DefaultDirectedGraph graph;
     private SectorDao sectorDao;
-    
+
     public SectorGraph() {
         graph = new DefaultDirectedGraph(new EdgeFactory() {
             public Edge createEdge(java.lang.Object sourceVertex, java.lang.Object targetVertex) {
@@ -27,15 +27,15 @@ public class SectorGraph {
             }
         });
     }
-    
+
     public void setSectorDao(SectorDao sd) {
         sectorDao = sd;
     }
-    
+
     public void setMessageBus(MessageBus bus) {
         bus.plug(this);
     }
-    
+
     public void channel(SessionStatusSignal signal) {
         if (signal.START.equals(signal.getStatus())) {
             if (log.isDebugEnabled()) {
@@ -44,7 +44,7 @@ public class SectorGraph {
             addAllSectors(sectorDao.getAll());
         }
     }
-    
+
     protected void addAllSectors(Collection sectors) {
         synchronized(graph) {
             Sector s;
@@ -60,7 +60,7 @@ public class SectorGraph {
             }
         }
     }
-    
+
     protected void addSector(Sector s) {
         synchronized(graph) {
             graph.addVertex(s);
@@ -71,21 +71,21 @@ public class SectorGraph {
             }
         }
     }
-    
+
     public void channel(SectorStatusSignal signal) {
         addSector(signal.getSector());
     }
-    
+
     public List shortestPath(Sector start, Sector end) {
         synchronized(graph) {
             return DijkstraShortestPath.findPathBetween(graph, start, end);
         }
     }
-    
+
     public ClosestWithinRangeIterator getSectorsWithinRange(Sector start, int range) {
         synchronized(graph) {
             return new ClosestWithinRangeIterator(graph, start, range);
         }
     }
-    
+
 }

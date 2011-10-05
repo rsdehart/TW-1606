@@ -22,11 +22,11 @@ import org.twdata.TW1606U.gui.View;
 import org.twdata.TW1606U.signal.MessageBus;
 import org.twdata.TW1606U.signal.ShutdownSignal;
 
-import com.jgoodies.clearlook.ClearLookManager;
-import com.jgoodies.clearlook.ClearLookMode;
-import com.jgoodies.plaf.plastic.PlasticLookAndFeel;
-import com.jgoodies.plaf.plastic.theme.ExperienceBlue;
-import com.jgoodies.plaf.plastic.theme.DarkStar;
+//import com.jgoodies.clearlook.ClearLookManager;
+//import com.jgoodies.clearlook.ClearLookMode;
+import com.jgoodies.looks.plastic.PlasticLookAndFeel;
+import com.jgoodies.looks.plastic.theme.ExperienceBlue;
+import com.jgoodies.looks.plastic.theme.DarkStar;
 
 
 
@@ -55,10 +55,10 @@ public class TW1606u {
                 public void refresh() {}
             });
             
-        ClearLookManager.setMode(ClearLookMode.ON);
-        PlasticLookAndFeel.setMyCurrentTheme(new DarkStar());
+        //ClearLookManager.setMode(ClearLookMode.ON);
+        PlasticLookAndFeel.setPlasticTheme(new DarkStar());
         
-        UIManager.setLookAndFeel("com.jgoodies.plaf.plastic.PlasticXPLookAndFeel");
+        UIManager.setLookAndFeel("com.jgoodies.looks.plastic.PlasticXPLookAndFeel");
         
         SplashScreen splash = new SplashScreen();
         splash.advance("Initializing Logging");

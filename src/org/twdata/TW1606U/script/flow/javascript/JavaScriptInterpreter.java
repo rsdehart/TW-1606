@@ -58,6 +58,7 @@ import org.springframework.beans.factory.*;
 import org.twdata.TW1606U.script.flow.*;
 import org.mozilla.javascript.*;
 import org.mozilla.javascript.tools.ToolErrorReporter;
+import org.mozilla.javascript.debug.*;
 import org.apache.log4j.Logger;
 
 
@@ -120,10 +121,8 @@ import org.apache.log4j.Logger;
                         db.setVisible(false);
                     }
                 });
-            db.setOptimizationLevel(OPTIMIZATION_LEVEL);
             db.setVisible(true);
             debugger = db;
-            Context.addContextListener(debugger);
         }
         return debugger;
     }

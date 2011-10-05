@@ -152,7 +152,7 @@ public class JDBMDatastore implements Datastore {
         if (file.exists()) {
             log.info("Restoring sessions");
             XStream xs = getXStream();
-            JDBMMapConverter cnv = new JDBMMapConverter(xs.getClassMapper(), "class", dm);
+            JDBMMapConverter cnv = new JDBMMapConverter(xs.getMapper(), "class", dm);
             xs.registerConverter(cnv);
             try {
                 synchronized(maps) {
@@ -203,7 +203,7 @@ public class JDBMDatastore implements Datastore {
         } else {
             log.info("Restoring sessions from zip");
             XStream xs = getXStream();
-            JDBMMapConverter cnv = new JDBMMapConverter(xs.getClassMapper(), "class", dm);
+            JDBMMapConverter cnv = new JDBMMapConverter(xs.getMapper(), "class", dm);
             xs.registerConverter(cnv);
             try {
                 synchronized(maps) {
@@ -238,7 +238,7 @@ public class JDBMDatastore implements Datastore {
     protected void saveAsXMLZip(File base) {
         FileOutputStream fout = null;
         XStream xs = getXStream();
-        JDBMMapConverter cnv = new JDBMMapConverter(xs.getClassMapper(), "class", dm);
+        JDBMMapConverter cnv = new JDBMMapConverter(xs.getMapper(), "class", dm);
         xs.registerConverter(cnv);
         try {
             fout = new FileOutputStream(new File(base, "gameXml.zip"));
@@ -282,7 +282,7 @@ public class JDBMDatastore implements Datastore {
         File file;
         FileWriter fout = null;
         XStream xs = getXStream();
-        JDBMMapConverter cnv = new JDBMMapConverter(xs.getClassMapper(), "class", dm);
+        JDBMMapConverter cnv = new JDBMMapConverter(xs.getMapper(), "class", dm);
         xs.registerConverter(cnv);
         try {
             synchronized(maps) {
