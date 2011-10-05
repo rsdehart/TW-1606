@@ -14,6 +14,7 @@
             var ses = sesDao.get(name, true);
             gui.host.setText(ses.host);
             gui.port.setText(ses.port);
+            gui.host.setText('ice9-tw.com');
         };
         function setSession() {
             var name = gui.sessionName.getSelectedItem();
@@ -30,7 +31,9 @@
         }
         
         function connect() {
-            function doConnect() { 
+            function doConnect() {
+            url = 'ice9-tw.com';
+            port = 2002;
                     status.setGeneralStatus("Connecting to "+url+"...");
                     try {
                         socket.connect(url, port);

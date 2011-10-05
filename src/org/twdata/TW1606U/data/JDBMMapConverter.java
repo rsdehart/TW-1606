@@ -1,9 +1,10 @@
 package org.twdata.TW1606U.data;
 
 import com.thoughtworks.xstream.converters.collections.*;
-import com.thoughtworks.xstream.alias.ClassMapper;
+import com.thoughtworks.xstream.mapper.*;
 import com.thoughtworks.xstream.converters.MarshallingContext;
 import com.thoughtworks.xstream.converters.UnmarshallingContext;
+import com.thoughtworks.xstream.converters.collections.*;
 import com.thoughtworks.xstream.core.JVM;
 import com.thoughtworks.xstream.io.HierarchicalStreamReader;
 import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
@@ -28,8 +29,8 @@ public class JDBMMapConverter extends MapConverter {
     private DaoManager dm;
     private boolean debug = false;
     
-    public JDBMMapConverter(ClassMapper classMapper, String classAttributeIdentifier, DaoManager dm) {
-        super(classMapper, classAttributeIdentifier);
+    public JDBMMapConverter(Mapper classMapper, String classAttributeIdentifier, DaoManager dm) {
+        super(classMapper);
         this.dm = dm;
     }
     

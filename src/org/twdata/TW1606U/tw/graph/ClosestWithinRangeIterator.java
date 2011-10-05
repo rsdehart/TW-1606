@@ -49,7 +49,7 @@ import org._3pq.jgrapht.util.FibonacciHeap;
  * iterator to work correctly the graph must not be modified during iteration.
  * Currently there are no means to ensure that, nor to fail-fast. The results
  * of such modifications are undefined.
- * 
+ *
  * <p>
  * The metric for <i>closest</i> here is the path length from a start vertex.
  * Edge.getWeight() is summed to calculate path length. Negative edge weights
@@ -168,21 +168,21 @@ public class ClosestWithinRangeIterator extends CrossComponentIterator {
         QueueEntry entry = (QueueEntry) m_heap.removeMin(  );
         entry.m_frozen = true;
         curEntry = entry;
-        
+
         return entry.m_vertex;
     }
-    
+
     public double getCurrentDistance() {
         if (curEntry != null) {
             return curEntry.getShortestPathLength();
-        } 
+        }
         return -1;
     }
 
 
     private void assertNonNegativeEdge( Edge edge ) {
         if( edge.getWeight(  ) < 0 ) {
-            throw new IllegalArgumentException( 
+            throw new IllegalArgumentException(
                 "negative edge weights not allowed" );
         }
     }
