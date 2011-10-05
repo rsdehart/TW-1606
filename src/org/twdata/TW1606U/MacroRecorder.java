@@ -77,4 +77,8 @@ public class MacroRecorder implements StreamListener {
             stopRecording();
         }
     }
+
+    public String getVal(){
+        return val;
+    }
 }

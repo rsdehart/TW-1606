@@ -23,7 +23,10 @@ public interface Sector {
     
     public boolean isInBubble();
     public void setInBubble(boolean inBubble);
-    
+
+    public String getSectorType();
+    public void setSectorType(String Sector_Type);
+
     public String getNote();
     public void setNote(String note);
     
@@ -40,6 +43,8 @@ public interface Sector {
     public void setNavHaz(int navHaz);
     
     public Sector[] getWarps();
+    public void clearWarps();
+    public void clearIncomingWarps();
     public void addWarp(Sector sector);
     public void addWarp(int sectorId);
     
@@ -89,7 +94,9 @@ public interface Sector {
     public Player[] getFedsPresent();
     public void clearFedsPresent();
     public void addFedPresent(Player player);
-    
+
+    public void updateSectorType();
+
     public Date getLastModified();
 	 public void setLastModified(Date lastModified);
 }	

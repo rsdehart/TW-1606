@@ -1,0 +1,14 @@
+<dialog title="Save Macro" modal="true" layout="BorderLayout">
+
+<vbox constraints="BorderLayout.CENTER" border="EmptyBorder(10,10,10,10)">
+    <panel >
+        <label text="Macro" />
+        <textfield id="macroName" text="" columns="20"/>
+    </panel>
+</vbox>    
+    <panel constraints="BorderLayout.SOUTH">
+        <button id="cancel" label="Cancel" onClick="dialog.dispose();"/>
+        <button id="ok" label="Ok" onClick="saveMacro();" />
+    </panel>
+</dialog>
+

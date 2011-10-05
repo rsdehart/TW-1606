@@ -84,25 +84,29 @@ public class TradeParser extends AbstractParser {
         }
     }
 
-    public void parseBuy(String line) {
+    public String parseBuy(String line) {
         Matcher m = buyPtn.matcher(line);
+        int amt=0;
         if (m.find()) {
-            int amt = parseInt(m.group(1));
-            amt+=(amt*0.03);
-            log.debug("Buying product ("+amt+"):"+line);
+            amt = parseInt(m.group(1));
+            amt+=(amt*0.05);
+//            log.debug("Buying product ("+amt+"):"+line);
         }
+        return Integer.toString(amt);
     }
 
-    public void parseSell(String line) {
+    public String parseSell(String line) {
 
         Matcher m = sellPtn.matcher(line);
+        int amt = 0;
         if (m.find()) {
-            int amt = parseInt(m.group(1));
-            amt-=(amt*0.03);
+            amt = parseInt(m.group(1));
+            amt-=(amt*0.05);
 
-            log.debug("Selling product ("+amt+"):"+line);
+//            log.debug("Selling product ("+amt+"):"+line);
         }
-    }
+         return Integer.toString(amt);
+   }
     
     public void parseLastDocked(String line) {
         if (log.isDebugEnabled()) {

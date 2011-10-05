@@ -16,6 +16,8 @@ public class TWModelSupport implements ModelSupport {
         xs.alias("planetType", PlanetTypeImpl.class);
         xs.alias("ship", ShipImpl.class);
         xs.alias("shipType", ShipTypeImpl.class);
+        xs.alias("macro",MacroImpl.class);
+        xs.alias("trigger",TriggerImpl.class);
     }
     
     public DaoAwareModel createModel(String name) {
@@ -29,6 +31,8 @@ public class TWModelSupport implements ModelSupport {
             "planetType".equals(name)  ? (DaoAwareModel)new PlanetTypeImpl() :
             "ship".equals(name)        ? (DaoAwareModel)new ShipImpl() :
             "shipType".equals(name)    ? (DaoAwareModel)new ShipTypeImpl() :
+            "trigger".equals(name)     ? (DaoAwareModel)new TriggerImpl() :
+            "macro".equals(name)       ? (DaoAwareModel)new MacroImpl() :
             null;
     }
 }

@@ -7,6 +7,7 @@ import org.twdata.TW1606U.tw.model.*;
 public class CimParser extends AbstractParser {
 
     private Pattern plotPtn;
+    private Pattern warpsIntroPtn;
     private Pattern warpsPtn;
     private Pattern portPtn;
     private static final int[][] CLASSES = new int[][] {
@@ -29,6 +30,7 @@ public class CimParser extends AbstractParser {
         plotPtn = Pattern.compile("\\(?(\\d+)\\)?(?: > )?");
         
         // 983    7   84  675  731  737
+        warpsIntroPtn = Pattern.compile("(\\d+)");
         warpsPtn = Pattern.compile("\\s+(\\d+)");
         
         //3 - 2910 100% - 2840 100%   2500 100% 
@@ -49,9 +51,11 @@ public class CimParser extends AbstractParser {
     }
     
     public void parseWarps(String line) {
-        Matcher m = warpsPtn.matcher(line);
+        Matcher m = warpsIntroPtn.matcher(line);
         m.find();
         Sector base = sectorDao.get(parseInt(m.group(1)), true);
+
+        m = warpsPtn.matcher(line);
         Sector warp;
         while (m.find()) {
             warp = sectorDao.get(parseInt(m.group(1)), true);

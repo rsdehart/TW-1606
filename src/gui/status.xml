@@ -56,10 +56,23 @@
     <textfield id="holdsEmpty" refid="currentSector"/>
   </panel>
 </vbox>
-<vbox border="TitledBorder(Quick Query)">
+<vbox border="TitledBorder(Current Planet)">
+  <label text="Fuel"  refid="lbl"/>
   <panel refid="line">
-    <quick-query enabled="false" />
+    <label text="Pop"  refid="lbl"/>
+    <textfield id="colosFuel" refid="currentSector"/>
+  </panel>
+  <label text="Organics"  refid="lbl"/>
+  <panel refid="line">
+    <label text="Pop"  refid="lbl"/>
+    <textfield id="colosOrg" refid="currentSector"/>
+  </panel>
+  <label text="Equipment"  refid="lbl"/>
+  <panel refid="line">
+    <label text="Pop"  refid="lbl"/>
+    <textfield id="colosEquip" refid="currentSector"/>
   </panel>
 </vbox>
+
 </vbox>
 </panel>

@@ -4,6 +4,48 @@
         play = tw1606u.getBean("action-manager").getAction("macro_play");
         stop = tw1606u.getBean("action-manager").getAction("macro_stop");
         record = tw1606u.getBean("action-manager").getAction("macro_record");
+        msave = tw1606u.getBean("action-manager").getAction("macro_save");
+        mload = tw1606u.getBean("action-manager").getAction("macro_load");
+        session = tw1606u.getBean("session");
+        dm = tw1606u.getBean("dao-manager");
+        sesDao = dm.getDao("session");
+        macroDao = dm.getDao("macro");
+        var allmacros = macroDao.getAll().toArray();
+
+        if (allmacros.length>0) {mload.setEnabled(true);}
+
+        function switchMacro() {
+            var name = gui.macroName.getSelectedItem();
+            var mymacro = macroDao.get(name, true);
+            gui.text.setText(mymacro.text);
+        };
+
+        function saveMacro() {
+        macros = macroDao.getAll().toArray();
+        Macro m = null;
+        var name = gui.name.getText();
+
+        if (macros.length > 1) {
+            for (int x=0; x<macros.length; x++) {
+                m = macros[x];
+                if (m.getName() != name) {
+                    m = null;
+                } else {
+                    break;
+                }
+            }
+        }
+        if (m != null){
+            thismacro = macroDao.get(m.getId(),true);
+            thismacro.setText(thismacro.getVal());
+            macroDao.update(thismacro);
+        }
+        }
+
+        function loadMacro() {
+
+
+        }
     </global>
     <action id="macro_record" onConnect="action.setEnabled(true);" onDisconnect="action.setEnabled(false);" enabled="false">
         macro.startRecording();
@@ -16,8 +58,28 @@
         stop.setEnabled(false);
         record.setEnabled(true);
         play.setEnabled(true);
+        msave.setEnabled(true);
     </action>
     <action id="macro_play" onConnect="action.setEnabled(false);" onDisconnect="action.setEnabled(false);" enabled="false">
         macro.play();
     </action>
+    <action id="macro_load" onConnect="action.setEnabled(false);" onDisconnect="action.setEnabled(false);" enabled="false">
+        gui = new Dialog(tw1606u, "/gui/loadmacro-dialog.xml");
+        var model = gui.macroName.model;
+        var macros = macroDao.getAll().toArray();
+        for (var x=0; x &lt; macros.length; x++) {
+            if (macros[x].getName() != null) {
+                model.addElement(macros[x].getName());
+            }
+        }
+        gui.jdialog.pack();
+        gui.show();
+    </action>
+    <action id="macro_save" onConnect="action.setEnabled(false);" onDisconnect="action.setEnabled(false);" enabled="false">
+        gui = new Dialog(tw1606u, "/gui/savemacro-dialog.xml");
+        gui.jdialog.pack();
+        gui.show();
+    </action>
+
 </actions>    
+

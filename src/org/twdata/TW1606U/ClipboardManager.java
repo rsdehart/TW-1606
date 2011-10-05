@@ -13,7 +13,7 @@ import javax.swing.JFrame;
  *
  *  <B>Maintainer:</B> Matthias L. Jugel
  *
- * @author     Matthias L. Jugel, Marcus Mei�ner
+ * @author     Matthias L. Jugel, Marcus Meiner
  * @version    $Id: ClipboardManager.java,v 1.3 2004/07/25 00:54:04 mrdon Exp $
  */
 public class ClipboardManager implements ClipboardOwner {

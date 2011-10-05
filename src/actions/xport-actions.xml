@@ -35,7 +35,66 @@
         dlg.showOpenDialog(frame);
         file = dlg.getSelectedFile();
         if (file != null) {
+
+        URL url= file.toURL();
+        InputStream in = null;
+        ProgressMonitor pm = null;
+        String input;
+        Integer id = 1;
+        try {
+            in = url.openStream();
+            //DataInputStream din = new DataInputStream(in);
+            BufferedReader din = new BufferedReader(new InputStreamReader(in));
+
+            log.info("Importing sectors");
+         //   if (parent != null) {
+           //     pm = new ProgressMonitor(parent, "Importing ZTM database...", null, 1, 1000);
+             //   pm.setMillisToPopup(1000);
+         //   }
+            while ((input = din.readLine()) != null) {
+                if (input!=null)
+                {
+                    try {
+                     Thread.sleep(20);
+                       } catch (InterruptedException e) {
+                          log.debug("ZTM Sleep exception: "+e.getMessage());
+                        }
+                    log.info(input);
+                status.setGeneralStatus("Importing "+input);
+                cimParser.parseWarps(input);
+                if (pm != null) {
+                    if (pm.isCanceled()) {
+                        return false;
+                    }
+                    pm.setProgress(id);
+                }
+//                id+=1;
+//                if (id>1000) id=1;
+                }
+            }
+            status.setGeneralStatus("ZTM Import Finished");
+            if (pm != null) {
+                pm.close();
+            }
+            in.close();
+            return true;
+        } catch (IOException ex) {
+            try {
+                in.close();
+            } catch (IOException e) {}
+        }
+
+        }
+    </action>
+    <action id="ztm_import2">
+        importer = tw1606u.getBean("ztm-importer");
+        dlg = new JFileChooser();
+        dlg.setDialogTitle("Choose the ZTM export file");
+        dlg.showOpenDialog(frame);
+        file = dlg.getSelectedFile();
+        if (file != null) {
             function importData() {
+//            importer.clearCurrentData();
               if (importer.importData(frame, file.toURL())) {
 //                alert("ZTM import completed");
               } else {
@@ -53,4 +112,47 @@
             t.start();
         }
     </action>
+    <action id="updateSectorTypes">
+        importer = tw1606u.getBean("ztm-importer");
+            function updateData() {
+              importer.UpdateSectorTypes();
+            }
+            obj = new Object();
+            obj.prototype = this;
+            obj.run = updateData;
+            obj.importer = importer;
+            obj.frame = frame;
+            r = new java.lang.Runnable(obj);
+            t = new java.lang.Thread(r);
+            t.start();
+    </action>
+    <action id="updateTunnels">
+        importer = tw1606u.getBean("ztm-importer");
+            function updateData() {
+              importer.UpdateTunnels();
+            }
+            obj = new Object();
+            obj.prototype = this;
+            obj.run = updateData;
+            obj.importer = importer;
+            obj.frame = frame;
+            r = new java.lang.Runnable(obj);
+            t = new java.lang.Thread(r);
+            t.start();
+    </action>
+    <action id="updateWheels">
+        importer = tw1606u.getBean("ztm-importer");
+            function updateData() {
+              importer.UpdateWheels();
+            }
+            obj = new Object();
+            obj.prototype = this;
+            obj.run = updateData;
+            obj.importer = importer;
+            obj.frame = frame;
+            r = new java.lang.Runnable(obj);
+            t = new java.lang.Thread(r);
+            t.start();
+    </action>
+
 </actions>    

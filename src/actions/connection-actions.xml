@@ -40,7 +40,7 @@
                     }
             }
             obj = new Object();
-            obj.prototype = this;
+            obj.crototype = this;
             obj.status = status;
             obj.terminal = terminal;
             obj.socket = socket;

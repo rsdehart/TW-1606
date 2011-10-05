@@ -18,6 +18,8 @@ public abstract class BaseDaoModel implements DaoAwareModel {
     transient PlanetTypeDao planetTypeDao;
     transient CorporationDao corpDao;
     transient PlayerDao playerDao;
+    transient MacroDao macroDao;
+    transient TriggerDao triggerDao;
     Date lastMod;
     transient Logger log;
     transient boolean initialized = false;
@@ -42,6 +44,8 @@ public abstract class BaseDaoModel implements DaoAwareModel {
             planetTypeDao = (PlanetTypeDao)dm.getDao("planetType");
             playerDao = (PlayerDao)dm.getDao("player");
             corpDao = (CorporationDao)dm.getDao("corporation");
+            macroDao = (MacroDao)dm.getDao("macro");
+            triggerDao = (TriggerDao)dm.getDao("trigger");
             initialized = true;
         }
     }

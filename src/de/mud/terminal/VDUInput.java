@@ -1,7 +1,7 @@
 /*
  * This file is part of "The Java Telnet Application".
  *
- * (c) Matthias L. Jugel, Marcus Meiﬂner 1996-2002. All Rights Reserved.
+ * (c) Matthias L. Jugel, Marcus Meiner 1996-2002. All Rights Reserved.
  *
  * Please visit http://javatelnet.org/ for updates and contact.
  *
@@ -29,7 +29,7 @@ import java.util.Properties;
 /**
  * An interface for a terminal that accepts input from keyboard and mouse.
  *
- * @author Matthias L. Jugel, Marcus Meiﬂner
+ * @author Matthias L. Jugel, Marcus Meiner
  * @version $Id: VDUInput.java,v 1.1.1.1 2003/12/08 02:45:46 mrdon Exp $
  */
 public interface VDUInput {

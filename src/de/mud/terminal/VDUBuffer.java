@@ -1,7 +1,7 @@
 /*
  * This file is part of "The Java Telnet Application".
  *
- * (c) Matthias L. Jugel, Marcus Meiﬂner 1996-2002. All Rights Reserved.
+ * (c) Matthias L. Jugel, Marcus Meiner 1996-2002. All Rights Reserved.
  *
  * Please visit http://javatelnet.org/ for updates and contact.
  *
@@ -33,7 +33,7 @@ import java.util.HashSet;
  * all methods to manipulate the buffer that stores characters and their
  * attributes as well as the regions displayed.
  *
- * @author Matthias L. Jugel, Marcus Meiﬂner
+ * @author Matthias L. Jugel, Marcus Meiner
  * @version $Id: VDUBuffer.java,v 1.1.1.1 2003/12/08 02:45:49 mrdon Exp $
  */
 public class VDUBuffer {

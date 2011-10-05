@@ -134,4 +134,35 @@
         showTable("Planets", data, titles, 7);
       ]]>
     </action>
+    <action id="report_bubbles" onConnect="action.setEnabled(true);" onDisconnect="action.setEnabled(false);" enabled="false">
+      <![CDATA[
+      sectors = tw1606u.getBean("sectorDao").getAll().toArray();
+      curSector = tw1606u.getBean("session").sector;
+      var data = new Array();
+      var dataPos = -1;
+      var count;
+      for (x=0; x<sectors.length; x++) {
+          s = sectors[x];
+          if (s.getSectorType() != null && s.getSectorType()=="W" && s.isInBubble()){
+              w = s.getWarps();
+              data[++dataPos] = new Array(4);
+              data[dataPos][0] = s.getId();
+              data[dataPos][1] = w.length;
+
+              if (s.fighters > 0 &&
+                s.fighterOwner != null &&
+                trader != null &&
+                s.fighterOwner.isFriendly(trader)) {
+                  data[dataPos][2] = "yes";
+              } else {
+                  data[dataPos][2] = "";
+              }
+              dist = distanceBetweenSectors(curSector, s);
+              data[dataPos][3] = dist == -1 ? "??" : dist;
+          }
+      }
+      titles = ["Sector", "Branches", "Contains your fighters", "Distance"];
+      showTable("Bubbles", data, titles, 1);
+      ]]>
+    </action>
 </actions>    

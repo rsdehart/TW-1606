@@ -1,7 +1,7 @@
 /*
  * This file is part of "The Java Telnet Application".
  *
- * (c) Matthias L. Jugel, Marcus Meiﬂner 1996-2002. All Rights Reserved.
+ * (c) Matthias L. Jugel, Marcus Meiner 1996-2002. All Rights Reserved.
  *
  * Please visit http://javatelnet.org/ for updates and contact.
  *
@@ -34,9 +34,9 @@ import java.lang.Byte;
  *  several methods to handle the telnet options and to be able to read and
  *  write the buffer. <P>
  *
- *  <B>Maintainer:</B> Marcus Meiﬂner
+ *  <B>Maintainer:</B> Marcus Meiner
  *
- *@author     Matthias L. Jugel, Marcus Meiﬂner
+ *@author     Matthias L. Jugel, Marcus Meiner
  *@version    $Id: TelnetProtocolHandler.java,v 1.1.1.1 2002/08/19 08:04:47
  *      mrdon Exp $
  */

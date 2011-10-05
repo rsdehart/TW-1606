@@ -1,7 +1,7 @@
 /*
  * This file is part of "The Java Telnet Application".
  *
- * (c) Matthias L. Jugel, Marcus Mei�ner 1996-2002. All Rights Reserved.
+ * (c) Matthias L. Jugel, Marcus Meiner 1996-2002. All Rights Reserved.
  *
  * Please visit http://javatelnet.org/ for updates and contact.
  *
@@ -34,7 +34,7 @@ package de.mud.ssh;
  * <B>Maintainer:</B>Marcus Meissner
  *
  * @version $Id: SshWrapperExample.java,v 1.1.1.1 2003/12/08 02:45:45 mrdon Exp $
- * @author Matthias L. Jugel, Marcus Mei�ner
+ * @author Matthias L. Jugel, Marcus Meiner
  */
 public class SshWrapperExample {
    public static void main(String args[]) {

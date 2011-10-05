@@ -9,6 +9,7 @@ public class SectorImpl extends BaseDaoModel implements Sector, Serializable {
     private int id;
     private boolean visited;
     private boolean inBubble;
+    private String sector_type;
     private String note;
     private String beacon;
     private String area;
@@ -82,6 +83,13 @@ public class SectorImpl extends BaseDaoModel implements Sector, Serializable {
     public void setInBubble(boolean inBubble) {
         this.inBubble = inBubble;
     }
+
+    public String getSectorType() {
+        return sector_type;
+    }
+    public void setSectorType(String Sector_Type) {
+        this.sector_type = Sector_Type;
+    }
     
     public String getNote() {
         return note;
@@ -128,10 +136,22 @@ public class SectorImpl extends BaseDaoModel implements Sector, Serializable {
         return warpsRefs;
     }    
     
+    public void clearWarps() {
+        warps = new int[0];
+        warpsRefs=null;        
+    }
+    
+    public void clearIncomingWarps() {
+        incomingWarps = null;
+    }
+
     public void addWarp(Sector sector) {
         addWarp(sector.getId());
     }
     public void addWarp(int sectorId) {
+        if (id==3063 && sectorId==12185) {
+            id=id;
+        }
         warps = addToArray(warps, sectorId);
         warpsRefs = null;
     }
@@ -350,6 +370,17 @@ public class SectorImpl extends BaseDaoModel implements Sector, Serializable {
             incomingWarps = new HashSet<Sector>();
         }
         incomingWarps.add(sector);
+    }
+
+    public void updateSectorType(){
+        if (incomingWarps.size()==1 && warpsRefs.length==1 && incomingWarps.contains(warpsRefs[0])) {
+            inBubble=true;
+            sector_type="B";
+        }
+          if (warpsRefs.length==2 && incomingWarps.size()==2 && incomingWarps.contains(warpsRefs[0]) && incomingWarps.contains(warpsRefs[1])) {
+            sector_type="T";
+        }
+      
     }
 
     public Set<Sector> getIncomingWarps() {

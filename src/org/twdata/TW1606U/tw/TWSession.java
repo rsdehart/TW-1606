@@ -34,6 +34,7 @@ public class TWSession {
     public void setDaoManager(DaoManager dm) {
         playerDao = (PlayerDao) dm.getDao("player");
         gameDao = (GameDao) dm.getDao("game");
+
     }
     
     public void setSessionDao(SessionDao sdao) {

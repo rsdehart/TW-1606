@@ -1,6 +1,6 @@
 /* This file is part of "The Java Telnet Application".
  *
- * (c) Matthias L. Jugel, Marcus Meiﬂner 1996-2002. All Rights Reserved.
+ * (c) Matthias L. Jugel, Marcus Meiner 1996-2002. All Rights Reserved.
  *
  * Please visit http://javatelnet.org/ for updates and contact.
  *
@@ -30,10 +30,10 @@ import java.awt.event.KeyEvent;
 /**
  * Implementation of a VT terminal emulation plus ANSI compatible.
  * <P>
- * <B>Maintainer:</B> Marcus Meiﬂner
+ * <B>Maintainer:</B> Marcus Meiner
  *
  * @version $Id: vt320.java,v 1.1.1.1 2003/12/08 02:45:48 mrdon Exp $
- * @author  Matthias L. Jugel, Marcus Meiﬂner
+ * @author  Matthias L. Jugel, Marcus Meiner
  */
 public abstract class vt320 extends VDUBuffer implements VDUInput {
   /** The current version id tag.<P>

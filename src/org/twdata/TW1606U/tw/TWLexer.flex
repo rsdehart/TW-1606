@@ -18,7 +18,8 @@ import org.twdata.TW1606U.StreamReader;
 
 %{
    private boolean firstCommand = true; 
-  
+
+   private PopulationParser popParser;
    private TradeParser tradeParser;
    private SectorDisplayParser sectorDisplayParser;
    private StatusParser statusParser;
@@ -29,7 +30,10 @@ import org.twdata.TW1606U.StreamReader;
    private StreamReader streamReader;
    private ShipTypeDao shipTypeDao;
    private Logger log;
-    
+
+    public void setPopulationParser(PopulationParser pop) {
+        this.popParser = pop;
+    }
     
     public void setStreamReader(StreamReader sr) {
         this.streamReader = sr;
@@ -107,6 +111,8 @@ import org.twdata.TW1606U.StreamReader;
 %state PLANETDISPLAY
 %state PLANETPROMPT
 %state STARDOCK
+%state PLANETLAND
+%state PLANETPOP
 
 %state DUMMYSTATE
 
@@ -203,7 +209,71 @@ NAME=([A-Za-z0-9"!""-"".""'"" ""*"])+
 }
 
 //}}}
-    
+
+//{{{ planetpop
+
+
+<YYINITIAL> "There are currently "{NUMBER}" colonists ready to leave Terra." {
+    String str = popParser.parseTerra(yytext());
+    if (str=="TA") {
+      streamReader.write("T^\n");
+    }
+}
+
+
+<YYINITIAL> "Land on which planet <Q to abort> ?" {
+    log.debug("Planet Landing");
+    String which = popParser.LandingOnWhich(yytext());
+    if (which!=""){
+        streamReader.write(which);
+    }
+
+}
+
+<YYINITIAL> "The Colonists file aboard your ship, eager to head out to new frontiers." {
+  String response = popParser.ReturnHome();
+  if (response!="") {
+    streamReader.write(response);
+  }
+
+}
+
+<YYINITIAL> "Do you want to engage the TransWarp drive?" {
+  String response = popParser.Transwarp(yytext());
+  if (response=="Y"){
+    streamReader.write("Y");
+  }
+}
+
+<YYINITIAL> "All Systems Ready, shall we engage?" {
+  String response = popParser.Transwarp(yytext());
+  if (response=="Y"){
+    streamReader.write("Y");
+  }
+}
+
+<YYINITIAL> "Planet #"{NUMBER}" in sector "{NUMBER}": "{NAME} {
+    popParser.Landing(yytext());
+
+}
+
+<YYINITIAL> "Planet command (?=help) [D]" {
+  String response = popParser.Landed(yytext());
+  if (response!=""){
+    streamReader.write(response);
+  }
+}
+
+<YYINITIAL> "The shortest path ("{NUMBER}" hops, "{NUMBER}" turns) from sector "{NUMBER}" to sector "{NUMBER}" is:" {
+    String response = popParser.ShortestPath(yytext());
+    if (response!=""){
+      streamReader.write(response);
+    }
+}
+
+
+//}}}
+  
 //{{{ commerce report 
 <YYINITIAL> "merce report for " {
     tradeParser.reset();
@@ -211,6 +281,8 @@ NAME=([A-Za-z0-9"!""-"".""'"" ""*"])+
 	yybegin(COMMERCEREPORT);
 
 }
+
+
 
 <COMMERCEREPORT> .*(" just left"|" docked ").* {
     tradeParser.parseLastDocked(yytext());
@@ -225,11 +297,17 @@ NAME=([A-Za-z0-9"!""-"".""'"" ""*"])+
 }
 
 <COMMERCEREPORT> "We'll buy them for "{NUMBER}" credits." {
-    tradeParser.parseBuy(yytext());
+    String counter = tradeParser.parseBuy(yytext());
+    if (counter!=""){
+        streamReader.write(counter+"^\n");
+    }
 }
 
 <COMMERCEREPORT> "We'll sell them for "{NUMBER}" credits." {
-    tradeParser.parseSell(yytext());
+    String counter = tradeParser.parseSell(yytext());
+    if (counter!=""){
+        streamReader.write(counter+"^\n");
+    }
 }
 
 <YYINITIAL> "fines you "{NUMBER}" Cargo Hold" {
@@ -285,6 +363,13 @@ NAME=([A-Za-z0-9"!""-"".""'"" ""*"])+
     
 //}}}
 
+//{{{ keepAlive
+<YYINITIAL>"Your session will be terminated" {
+    log.debug("Session Timeout received - Sending keepalive");
+    streamReader.write(" ");
+}
+//}}}
+
 //{{{ scans
 <YYINITIAL>"Relative Density Scan" {
     log.debug("Starting density scan");
@@ -313,10 +398,10 @@ NAME=([A-Za-z0-9"!""-"".""'"" ""*"])+
 	scanParser.parseDeployedFighters(yytext());
 }
 
-<DEPLOYEDFTRS> ({NUMBER}|{NUMBER}"T")" Total" {
-    log.debug("Ending deployed fighters");
-	yybegin(YYINITIAL);
-}
+//<DEPLOYEDFTRS> ({NUMBER}|{NUMBER}{CHAR})" Total" {
+//    log.debug("Ending deployed fighters");
+//	yybegin(YYINITIAL);
+//}
     
 //}}}
 
@@ -363,8 +448,10 @@ NAME=([A-Za-z0-9"!""-"".""'"" ""*"])+
 //}}}
 
 //{{{ planet
-/*<YYINITIAL> "Planet #"{NUMBER}" in sector "{NUMBER}": ".* {
+<YYINITIAL> "Planet #"{NUMBER}" in sector "{NUMBER}": ".* {
     planetParser.parsePlanetDisplay(yytext());
+//    sessionDao.update(session);
+
     log.debug("Starting planet display");
     yybegin(PLANETDISPLAY);
 }
@@ -382,7 +469,7 @@ NAME=([A-Za-z0-9"!""-"".""'"" ""*"])+
     log.debug("Starting planet prompt");
     yybegin(PLANETPROMPT);
 }
-*/
+
 //}}}
 
 //{{{ stardock
@@ -432,14 +519,15 @@ NAME=([A-Za-z0-9"!""-"".""'"" ""*"])+
 }
 //}}}
 
-"Command [TL="{TIME}"]:["{NUMBER}"]"  {    
+"Command [TL="{TIME}"]:["{NUMBER}"]".*  {
     log.debug("At command prompt");
     
     // Initialize the session on first command prompt
     if (firstCommand) {
       if (shipTypeDao.getAll().size() == 0) {
-        streamReader.write("CC?QQ".getBytes("Cp1252"));
-      }  
+        streamReader.write("CC?+QQ".getBytes("Cp1252"));
+      }
+      streamReader.write("TDRQ");
       streamReader.write("I".getBytes("Cp1252"));
       streamReader.write("/#".getBytes("Cp1252"));
       streamReader.write("V".getBytes("Cp1252"));
@@ -448,6 +536,11 @@ NAME=([A-Za-z0-9"!""-"".""'"" ""*"])+
     }
 
     statusParser.parseCommandPrompt(yytext());
+    String response = popParser.parseCommandPrompt(yytext());
+    if (response!=""){
+        streamReader.write(response);
+    }
+
     yybegin(YYINITIAL);
 }
 

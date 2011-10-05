@@ -1,7 +1,7 @@
 /*
  * This file is part of "The Java Telnet Application".
  *
- * (c) Matthias L. Jugel, Marcus Meiﬂner 1996-2002. All Rights Reserved.
+ * (c) Matthias L. Jugel, Marcus Meiner 1996-2002. All Rights Reserved.
  *
  * Please visit http://javassh.org/ for updates and contact.
  *
@@ -60,7 +60,7 @@ import java.awt.Dimension;
  * <B>Maintainer:</B>Marcus Meissner
  *
  * @version $Id: SshWrapper.java,v 1.1.1.1 2003/12/08 02:45:43 mrdon Exp $
- * @author Matthias L. Jugel, Marcus Meiﬂner
+ * @author Matthias L. Jugel, Marcus Meiner
  */
 public class SshWrapper {
   protected SshIO handler;

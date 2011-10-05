@@ -56,6 +56,7 @@ public class PlanetParser extends AbstractParser {
                 switch (disPos) {
                     case 0 : Sector s = sectorDao.get(parseInt(m.group(2)), true);
                              planet = makePlanet(s, m.group(3), parseInt(m.group(1)));
+                             session.setPlanet(planet);
                              break;
                     case 1 : planetType = planetTypeDao.get(m.group(1), true);
                              planetType.setName(m.group(2));

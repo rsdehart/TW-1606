@@ -88,12 +88,12 @@ public class TerminalHoverListener implements MouseMotionListener, MouseListener
 
     public void mouseDragged(MouseEvent e) {
         if (warpMenu.isVisible()) {
-            int x = frame.getLayeredPane().getMousePosition().x - warpMenu.getLocation().x;
-            int y = frame.getLayeredPane().getMousePosition().y - warpMenu.getLocation().y;
-            MouseEvent ev = new MouseEvent(warpMenu, MouseEvent.MOUSE_MOVED, e.getWhen(), e.getModifiers(), x, y, e.getClickCount(), false);
+           // int x = frame.getLayeredPane().getMousePosition().x - warpMenu.getLocation().x;
+           // int y = frame.getLayeredPane().getMousePosition().y - warpMenu.getLocation().y;
+           // MouseEvent ev = new MouseEvent(warpMenu, MouseEvent.MOUSE_MOVED, e.getWhen(), e.getModifiers(), x, y, e.getClickCount(), false);
             
-            warpMenu.mouseMoved(ev);
-            isDragging = true;
+           // warpMenu.mouseMoved(ev);
+           // isDragging = true;
         }
     }
 
@@ -180,11 +180,11 @@ public class TerminalHoverListener implements MouseMotionListener, MouseListener
 
     public void mouseReleased(MouseEvent e) {
         if (warpMenu.isVisible() && isDragging) {
-            int x = frame.getLayeredPane().getMousePosition().x - warpMenu.getLocation().x;
-            int y = frame.getLayeredPane().getMousePosition().y - warpMenu.getLocation().y;
-            MouseEvent ev = new MouseEvent(warpMenu, MouseEvent.MOUSE_CLICKED, e.getWhen(), e.getModifiers(), x, y, e.getClickCount(), false);
+          //  int x = frame.getLayeredPane().getMousePosition().x - warpMenu.getLocation().x;
+          //  int y = frame.getLayeredPane().getMousePosition().y - warpMenu.getLocation().y;
+          //  MouseEvent ev = new MouseEvent(warpMenu, MouseEvent.MOUSE_CLICKED, e.getWhen(), e.getModifiers(), x, y, e.getClickCount(), false);
             
-            warpMenu.mouseClicked(ev);
+          //  warpMenu.mouseClicked(ev);
         }
         isDragging = false;
         

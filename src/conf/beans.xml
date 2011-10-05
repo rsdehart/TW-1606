@@ -210,6 +210,17 @@
     <property name="session"><ref bean="session" /></property>
   </bean>
 
+  <bean id="parser.planetpop" class="org.twdata.TW1606U.tw.PopulationParser">
+    <property name="daoManager"><ref bean="dao-manager" /></property>
+    <property name="session"><ref bean="session" /></property>
+  </bean>
+
+ <!--
+  <bean id="parser.trigger" class="org.twdata.TW1606U.tw.TriggerParser">
+    <property name="daoManager"><ref bean="dao-manager" /></property>
+    <property name="session"><ref bean="session" /></property>
+  </bean>
+-->
   <bean id="session" class="org.twdata.TW1606U.tw.TWSession">
     <property name="daoManager"><ref bean="dao-manager" /></property>
     <property name="sessionDao"><ref bean="sessionDao" /></property>
@@ -323,6 +334,16 @@
 
 
   <!-- {{{ tw dao -->
+  <bean id="macroDao" class="org.twdata.TW1606U.tw.data.MacroMapDao">
+    <property name="daoManager"><ref bean="dao-manager" /></property>
+    <property name="datastore"><ref bean="datastore" /></property>
+    <property name="messageBus"><ref bean="message-bus" /></property>
+  </bean>
+  <bean id="triggerDao" class="org.twdata.TW1606U.tw.data.TriggerMapDao">
+    <property name="daoManager"><ref bean="dao-manager" /></property>
+    <property name="datastore"><ref bean="datastore" /></property>
+    <property name="messageBus"><ref bean="message-bus" /></property>
+  </bean>
   <bean id="corporationDao" class="org.twdata.TW1606U.tw.data.CorporationMapDao">
     <property name="daoManager"><ref bean="dao-manager" /></property>
     <property name="datastore"><ref bean="datastore" /></property>
@@ -396,6 +417,12 @@
     <property name="daoManager"><ref bean="dao-manager" /></property>
   </bean>
   <bean id="shipTypeModel" class="org.twdata.TW1606U.tw.model.ShipTypeImpl" singleton="false">
+    <property name="daoManager"><ref bean="dao-manager" /></property>
+  </bean>
+  <bean id="macroModel" class="org.twdata.TW1606U.tw.model.MacroImpl" singleton="false">
+    <property name="daoManager"><ref bean="dao-manager" /></property>
+  </bean>
+  <bean id="triggerModel" class="org.twdata.TW1606U.tw.model.TiggerImpl" singleton="false">
     <property name="daoManager"><ref bean="dao-manager" /></property>
   </bean>
   <!-- }}} -->

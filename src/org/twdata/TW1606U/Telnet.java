@@ -1,7 +1,7 @@
 /*
  *  This file is part of "The Java Telnet Application".
  *
- *  (c) Matthias L. Jugel, Marcus Mei�ner 1996-2002. All Rights Reserved.
+ *  (c) Matthias L. Jugel, Marcus Meiner 1996-2002. All Rights Reserved.
  *
  *  Please visit http://javatelnet.org/ for updates and contact.
  *
@@ -39,7 +39,7 @@ import java.io.IOException;
  *
  *  <B>Maintainer:</B> Matthias L. Jugel
  *
- *@author     Matthias L. Jugel, Marcus Mei�ner
+ *@author     Matthias L. Jugel, Marcus Meiner
  *@created    October 19, 2003
  *@version    $Id: Telnet.java,v 1.6 2004/09/20 06:11:15 mrdon Exp $
  */

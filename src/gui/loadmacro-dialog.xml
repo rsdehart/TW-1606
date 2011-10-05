@@ -1,0 +1,19 @@
+<dialog title="Load Macro" modal="true" layout="BorderLayout">
+
+<vbox constraints="BorderLayout.CENTER" border="EmptyBorder(10,10,10,10)">
+    <panel >
+        <label text="Macro" />
+        <combobox id="macroName" editable="true" onChange="switchMacro();"/>
+        <button id="delSession" label="Remove" onClick="delSession();" />
+    </panel>
+    <panel >
+        <label text="Text" />
+        <textfield id="text" text="" columns="40"/>
+    </panel>
+</vbox>    
+    <panel constraints="BorderLayout.SOUTH">
+        <button id="cancel" label="Cancel" onClick="dialog.dispose();"/>
+        <button id="ok" label="Ok" onClick="loadMacro();" />
+    </panel>
+</dialog>
+

@@ -44,11 +44,16 @@
   <menuitem text="Test Dialog..." Action="script_guiTest" />
   <checkboxmenuitem text="Enable Debugger" Action="script_toggleDebugger" />
   <separator />
+  <menuitem text="Update Sector Types" mnemonic="VK_S" Action="updateSectorTypes" />
+  <menuitem text="Update Tunnels" mnemonic="VK_S" Action="updateTunnels" />
+  <menuitem text="Update Wheels" mnemonic="VK_S" Action="updateWheels" />
   <!--<menuitem text="Planet-Planet Population Move" Action="script_planet2planet" />
 -->
 </menu>
 
 <menu text="Terminal">
+  <menuitem text="Save Macro" mnemonic="VK_S" Action="macro_save" />
+  <menuitem text="Load Macro" mnemonic="VK_S" Action="macro_load" />
 <!--  <menuitem text="Smaller Font" Action="terminal" ActionCommand="smallerFont" />
   <menuitem text="Larger Font"  Action="terminal" ActionCommand="largerFont" />
   <separator />
@@ -64,6 +69,7 @@
     <menuitem text="Port Pairs (BxS - SxB)" Action="report_tradeEF" />
     <menuitem text="Port Pairs (xxB - xxB)" Action="report_tradeEE" />
     <menuitem text="xxB Clusters (2 hops)" Action="report_clusterE" />
+    <menuitem text="Bubbles" Action="report_bubbles" />
     <menuitem text="Planets" Action="report_planets" />
 </menu>
 

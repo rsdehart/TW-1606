@@ -5,6 +5,7 @@ import java.util.regex.Pattern;
 
 import org.apache.log4j.Logger;
 import org.twdata.TW1606U.data.DaoManager;
+import org.twdata.TW1606U.tw.data.MacroDao;
 import org.twdata.TW1606U.tw.data.CorporationDao;
 import org.twdata.TW1606U.tw.data.GameDao;
 import org.twdata.TW1606U.tw.data.PlanetDao;
@@ -21,6 +22,7 @@ public abstract class AbstractParser {
     protected static final Pattern numPattern = Pattern.compile("-?[0-9]+");
     protected static final Pattern warpPtn = Pattern.compile("\\(?([0-9]+)");
 
+    protected MacroDao macroDao;
     protected SectorDao sectorDao;
     protected PortDao portDao;
     protected GameDao gameDao;
@@ -33,6 +35,7 @@ public abstract class AbstractParser {
     protected TWSession session;
     protected Logger log;
 
+
     public void setDaoManager(DaoManager dm) {
         sectorDao = (SectorDao) dm.getDao("sector");
         portDao = (PortDao) dm.getDao("port");
@@ -43,6 +46,7 @@ public abstract class AbstractParser {
         planetTypeDao = (PlanetTypeDao) dm.getDao("planetType");
         playerDao = (PlayerDao) dm.getDao("player");
         corpDao = (CorporationDao) dm.getDao("corporation");
+        macroDao = (MacroDao) dm.getDao("macro");
     }
 
     public void setSession(TWSession session) {
