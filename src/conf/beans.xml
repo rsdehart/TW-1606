@@ -422,9 +422,9 @@
   <bean id="macroModel" class="org.twdata.TW1606U.tw.model.MacroImpl" singleton="false">
     <property name="daoManager"><ref bean="dao-manager" /></property>
   </bean>
-  <bean id="triggerModel" class="org.twdata.TW1606U.tw.model.TiggerImpl" singleton="false">
+<!--  <bean id="triggerModel" class="org.twdata.TW1606U.tw.model.TiggerImpl" singleton="false">
     <property name="daoManager"><ref bean="dao-manager" /></property>
-  </bean>
+  </bean> -->
   <!-- }}} -->
 
 </beans>
