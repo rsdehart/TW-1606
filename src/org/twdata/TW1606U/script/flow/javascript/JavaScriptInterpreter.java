@@ -113,9 +113,9 @@ import org.apache.log4j.Logger;
             db.pack();
             java.awt.Dimension size =
                 java.awt.Toolkit.getDefaultToolkit().getScreenSize();
-            size.width *= 0.75;
-            size.height *= 0.75;
-            db.setSize(size);
+            int dbWidth = (int)(size.width * 0.75);
+            int dbHeight = (int)(size.height * 0.75);
+            db.setSize(dbWidth, dbHeight);
             db.setExitAction(new Runnable() {
                     public void run() {
                         db.setVisible(false);
@@ -165,7 +165,6 @@ import org.apache.log4j.Logger;
         
         Context context = Context.enter();
         context.setOptimizationLevel(OPTIMIZATION_LEVEL);
-        context.setCompileFunctionsWithDynamicScope(true);
         context.setGeneratingDebug(true);
         
         try {
@@ -191,7 +190,7 @@ import org.apache.log4j.Logger;
             try {
                 scope.defineFunctionProperties(names, JSGlobal.class,
                                                ScriptableObject.DONTENUM);
-            } catch (PropertyException e) {
+            } catch (RuntimeException e) {
                 throw new Error(e.getMessage());
             }
 
@@ -229,7 +228,6 @@ import org.apache.log4j.Logger;
         Context context = Context.enter();
         context.setOptimizationLevel(OPTIMIZATION_LEVEL);
         context.setGeneratingDebug(true);
-        context.setCompileFunctionsWithDynamicScope(true);
         context.setErrorReporter(errorReporter);
 
         // The Kokua object exported to JavaScript needs to be setup here
@@ -297,9 +295,7 @@ import org.apache.log4j.Logger;
         Scriptable sc = enterContext(null);
         Context context = Context.getCurrentContext();
         Reader reader = new BufferedReader(new StringReader(code));
-        Script compiledScript = context.compileReader(sc, reader,
-                                                     id,
-                                                     1, null);
+        Script compiledScript = context.compileReader(reader, id, 1, null);
         return compiledScript;
     }   
 
@@ -307,9 +303,7 @@ import org.apache.log4j.Logger;
                                   Reader src, String id) throws Exception {
         try {
             Reader reader = new BufferedReader(src);
-            Script compiledScript = cx.compileReader(scope, reader,
-                                                     id,
-                                                     1, null);
+            Script compiledScript = cx.compileReader(reader, id, 1, null);
             return compiledScript;
         } finally {
             src.close();
@@ -455,12 +449,12 @@ import org.apache.log4j.Logger;
                 throw new RuntimeException(ee.getMessage(), unwrapped);
             } catch (EcmaError ee) {
                 String msg = ToolErrorReporter.getMessage("msg.uncaughtJSException", ee.toString());
-                if (ee.getSourceName() != null) {
+                if (ee.sourceName() != null) {
                     Context.reportRuntimeError(msg,
-                                               ee.getSourceName(),
-                                               ee.getLineNumber(),
-                                               ee.getLineSource(),
-                                               ee.getColumnNumber());
+                                               ee.sourceName(),
+                                               ee.lineNumber(),
+                                               ee.lineSource(),
+                                               ee.columnNumber());
                 } else {
                     Context.reportRuntimeError(msg);
                 }
@@ -484,12 +478,12 @@ import org.apache.log4j.Logger;
             throw new RuntimeException(ee.getMessage(), unwrapped);
         } catch (EcmaError ee) {
             String msg = ToolErrorReporter.getMessage("msg.uncaughtJSException", ee.toString());
-            if (ee.getSourceName() != null) {
+            if (ee.sourceName() != null) {
                 Context.reportRuntimeError(msg,
-                                           ee.getSourceName(),
-                                           ee.getLineNumber(),
-                                           ee.getLineSource(),
-                                           ee.getColumnNumber());
+                                           ee.sourceName(),
+                                           ee.lineNumber(),
+                                           ee.lineSource(),
+                                           ee.columnNumber());
             } else {
                 Context.reportRuntimeError(msg);
             }
@@ -515,8 +509,7 @@ import org.apache.log4j.Logger;
         Context context = Context.enter();
         context.setOptimizationLevel(OPTIMIZATION_LEVEL);
         context.setGeneratingDebug(true);
-        context.setCompileFunctionsWithDynamicScope(true);
-
+        
         // Obtain the JS continuation object from it, and setup the
         // JSTW1606u object associated in the dynamic scope of the saved
         // continuation with the environment and context objects.
@@ -562,12 +555,12 @@ import org.apache.log4j.Logger;
             throw new RuntimeException(ee.getMessage(), unwrapped);
         } catch (EcmaError ee) {
             String msg = ToolErrorReporter.getMessage("msg.uncaughtJSException", ee.toString());
-            if (ee.getSourceName() != null) {
+            if (ee.sourceName() != null) {
                 Context.reportRuntimeError(msg,
-                                           ee.getSourceName(),
-                                           ee.getLineNumber(),
-                                           ee.getLineSource(),
-                                           ee.getColumnNumber());
+                                           ee.sourceName(),
+                                           ee.lineNumber(),
+                                           ee.lineSource(),
+                                           ee.columnNumber());
             } else {
                 Context.reportRuntimeError(msg);
             }

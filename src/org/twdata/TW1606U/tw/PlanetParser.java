@@ -60,6 +60,7 @@ public class PlanetParser extends AbstractParser {
                              break;
                     case 1 : planetType = planetTypeDao.get(m.group(1), true);
                              planetType.setName(m.group(2));
+                             log.debug("setting " + m.group(2) + " type to " + m.group(1));
                              planet.setPlanetType(planetType);
                              break;
                     case 2 : if (m.group(1).charAt(0) != '<') {
@@ -109,30 +110,32 @@ public class PlanetParser extends AbstractParser {
         if (prodPos == 0) {
             ship = session.getTrader().getCurShip();
         }
+        log.debug("PRODUCT DISPLAY GOT " + line);
+        String[] splitLine = line.split("[ ]{2,}");
         Matcher m = productPtn.matcher(line);
-        int pos = 0;
-        while (m.find()) {
-            int val = parseInt(m.group(0));
-            switch (pos++) {
-                case 0  : if (prodPos != planet.FIGHTERS) {
+        for (int i = 1; i < splitLine.length; ++i) {
+            int val = parseInt(splitLine[i]);
+            log.debug("CURRENT VAL: " + val + ", PRODPOS = " + prodPos);
+            switch (i) {
+                case 1  : if (prodPos != planet.FIGHTERS) {
                             planet.setColonists(prodPos, val);
                           }  
                           break;
-                case 1  : planetType.setColonistsToBuildOne(prodPos, val);
+                case 2  : if (planetType != null) planetType.setColonistsToBuildOne(prodPos, val);
                           break;
-                case 3  : if (prodPos == planet.FIGHTERS) {
+                case 4  : if (prodPos == planet.FIGHTERS) {
                             planet.setFighters(val);
                           } else {  
                             planet.setProduct(prodPos, val);
                           }  
                           break;
-                case 4  : if (prodPos == planet.FIGHTERS) {
+                case 5  : if (prodPos == planet.FIGHTERS) {
                             ship.setFighters(val);
                           } else {
                             ship.setHoldContents(prodPos, val);
                           }
                           break;
-                case 5  : planetType.setMaxProduct(prodPos, val);
+                case 6  : if(planetType != null) planetType.setMaxProduct(prodPos, val);
                           break;
             }
         }

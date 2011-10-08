@@ -21,10 +21,13 @@ public class TradeParser extends AbstractParser {
     private Ship ship;
     
     private Socket socket;
-    private int offernumber;
+    private int offerNumber;
+    private double[] offerFactors = new double[2];
     
     public TradeParser() {
         super();
+        offerFactors[0] = 1.05;
+        offerFactors[1] = 1.03;
         prodPtn = Pattern.compile("([BS])[a-z]+\\s+(\\d+)\\s+(\\d+)%\\s+(\\d+)");
         dockedPtn = Pattern.compile("(.*) (docked|just left)");
         statusPtn = Pattern.compile("([0-9,]+) credits and ([0-9,]+) empty");
@@ -43,7 +46,7 @@ public class TradeParser extends AbstractParser {
         port = c.getPort();
         port.setVisited(true);
 
-        offernumber=0;
+        offerNumber=0;
     }
    
     public void parseCreditsAndHolds(String line) {
@@ -74,7 +77,7 @@ public class TradeParser extends AbstractParser {
             
             ++prodId;
             port.setCurProduct(prodId, amount); 
-            port.setMaxProduct(prodId, (amount * percent) / 100); 
+            port.setMaxProduct(prodId, (amount * percent) / 100);
             ship.setHoldContents(prodId, onBoard);
             
             if (prodId == 2) {
@@ -86,12 +89,13 @@ public class TradeParser extends AbstractParser {
 
     public String parseBuy(String line) {
         Matcher m = buyPtn.matcher(line);
-        int amt=0;
+        int amt = 0;
         if (m.find()) {
             amt = parseInt(m.group(1));
-            amt+=(amt*0.05);
+            amt = (int)(Math.floor(amt * offerFactors[offerNumber == 0 ? 0 : 1]));
 //            log.debug("Buying product ("+amt+"):"+line);
         }
+        offerNumber++;
         return Integer.toString(amt);
     }
 
@@ -101,7 +105,7 @@ public class TradeParser extends AbstractParser {
         int amt = 0;
         if (m.find()) {
             amt = parseInt(m.group(1));
-            amt-=(amt*0.05);
+            amt = (int)(Math.ceil(amt / offerFactors[offerNumber == 0 ? 0 : 1]));
 
 //            log.debug("Selling product ("+amt+"):"+line);
         }

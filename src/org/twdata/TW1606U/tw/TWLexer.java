@@ -1458,7 +1458,7 @@ public class TWLexer implements Lexer {
   /** startRead marks the beginning of the yytext() string in the buffer */
   private int zzStartRead;
 
-  /** endRead marks the last character in the buffer, that has been read
+  /** endRead marks the last character in the buffer that has been read
       from input */
   private int zzEndRead;
 
@@ -1935,7 +1935,7 @@ public class TWLexer implements Lexer {
         case 69: break;
         case 56: 
           { String response = popParser.Transwarp(yytext());
-  if (response=="Y"){
+  if (response.equals("Y")){
     streamReader.write("Y");
   }
           }
@@ -1955,7 +1955,7 @@ public class TWLexer implements Lexer {
         case 73: break;
         case 61: 
           { String response = popParser.ReturnHome();
-  if (response!="") {
+  if (!response.equals("")) {
     streamReader.write(response);
   }
           }
@@ -2019,7 +2019,7 @@ public class TWLexer implements Lexer {
         case 84: break;
         case 59: 
           { String str = popParser.parseTerra(yytext());
-    if (str=="TA") {
+    if (str.equals("TA")) {
       streamReader.write("T^\n");
     }
           }
@@ -2047,14 +2047,14 @@ public class TWLexer implements Lexer {
         case 90: break;
         case 47: 
           { String counter = tradeParser.parseBuy(yytext());
-    if (counter!=""){
+    if (!counter.equals("")){
         streamReader.write(counter+"^\n");
     }
           }
         case 91: break;
         case 45: 
           { String response = popParser.Landed(yytext());
-  if (response!=""){
+  if (!response.equals("")){
     streamReader.write(response);
   }
           }
@@ -2078,7 +2078,7 @@ public class TWLexer implements Lexer {
         case 95: break;
         case 60: 
           { String response = popParser.ShortestPath(yytext());
-    if (response!=""){
+    if (!response.equals("")){
       streamReader.write(response);
     }
           }
@@ -2094,7 +2094,7 @@ public class TWLexer implements Lexer {
         case 98: break;
         case 49: 
           { String counter = tradeParser.parseSell(yytext());
-    if (counter!=""){
+    if (!counter.equals("")){
         streamReader.write(counter+"^\n");
     }
           }
@@ -2124,7 +2124,7 @@ public class TWLexer implements Lexer {
         case 57: 
           { log.debug("Planet Landing");
     String which = popParser.LandingOnWhich(yytext());
-    if (which!=""){
+    if (!which.equals("")){
         streamReader.write(which);
     }
           }
@@ -2147,7 +2147,7 @@ public class TWLexer implements Lexer {
 
     statusParser.parseCommandPrompt(yytext());
     String response = popParser.parseCommandPrompt(yytext());
-    if (response!=""){
+    if (!response.equals("")){
         streamReader.write(response);
     }
 

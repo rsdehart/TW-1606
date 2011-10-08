@@ -290,13 +290,13 @@ public class SectorMap extends JPanel {
     }
     
     public void channel(SessionStatusSignal signal) {
-        if (signal.STOP.equals(signal.getStatus())) {
+        if (SessionStatusSignal.STOP.equals(signal.getStatus())) {
             clearGraph();
         } 
     }
     
     public void channel(ChangedSessionSignal signal) throws GraphException {
-        if (signal.SECTOR == signal.getType()) {
+        if (ChangedSessionSignal.SECTOR == signal.getType()) {
             synchronized(this) {
                 Sector s = session.getSector();
                 if (s.getWarps().length == 0) {
@@ -656,7 +656,7 @@ public class SectorMap extends JPanel {
                    if (e != null && e.getElementType() == Element.NODE_ELEMENT) {
                        node = (Node)e;
                    }
-                   if (node == null) {
+                   if (node == null && false) {
                        menuForeground.setEnabled(false);
                        menuBackground.setEnabled(false);
                        curPopupSector = null;

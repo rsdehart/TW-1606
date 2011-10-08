@@ -348,7 +348,7 @@ public class ChatLexer implements Lexer {
       System.arraycopy(zzBuffer, 0, newBuffer, 0, zzBuffer.length);
       zzBuffer = newBuffer;
     }
-log.debug(zzEndRead);
+
     /* finally: fill the buffer with new input */
     int numRead = zzReader.read(zzBuffer, zzEndRead,
                                             zzBuffer.length-zzEndRead);

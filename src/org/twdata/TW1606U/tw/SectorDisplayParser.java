@@ -93,10 +93,12 @@ public class SectorDisplayParser extends AbstractParser {
             figsExist = true;
             sector.setFighters(parseInt(m.group(1), 0));
             String owner = m.group(2);
-            if (owner.equals("yours")) {
-                sector.setFighterOwner(session.getTrader());
-            } else if (owner.equals("belong to your Corp")) {
-                sector.setFighterOwner(session.getTrader().getCorporation());
+            if(session.getTrader() != null) {
+                if (owner.equals("yours")) {
+                    sector.setFighterOwner(session.getTrader());
+                } else if (owner.equals("belong to your Corp")) {
+                    sector.setFighterOwner(session.getTrader().getCorporation());
+                }
             }
             // TODO: Should parse other trader or corp ownership	    
             

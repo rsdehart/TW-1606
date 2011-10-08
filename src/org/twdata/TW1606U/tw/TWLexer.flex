@@ -215,7 +215,7 @@ NAME=([A-Za-z0-9"!""-"".""'"" ""*"])+
 
 <YYINITIAL> "There are currently "{NUMBER}" colonists ready to leave Terra." {
     String str = popParser.parseTerra(yytext());
-    if (str=="TA") {
+    if (str.equals("TA") {
       streamReader.write("T^\n");
     }
 }
@@ -224,7 +224,7 @@ NAME=([A-Za-z0-9"!""-"".""'"" ""*"])+
 <YYINITIAL> "Land on which planet <Q to abort> ?" {
     log.debug("Planet Landing");
     String which = popParser.LandingOnWhich(yytext());
-    if (which!=""){
+    if (!which.isEmpty()){
         streamReader.write(which);
     }
 
@@ -232,7 +232,7 @@ NAME=([A-Za-z0-9"!""-"".""'"" ""*"])+
 
 <YYINITIAL> "The Colonists file aboard your ship, eager to head out to new frontiers." {
   String response = popParser.ReturnHome();
-  if (response!="") {
+  if (!response.isEmpty()) {
     streamReader.write(response);
   }
 
@@ -240,14 +240,14 @@ NAME=([A-Za-z0-9"!""-"".""'"" ""*"])+
 
 <YYINITIAL> "Do you want to engage the TransWarp drive?" {
   String response = popParser.Transwarp(yytext());
-  if (response=="Y"){
+  if (response.equals("Y")){
     streamReader.write("Y");
   }
 }
 
 <YYINITIAL> "All Systems Ready, shall we engage?" {
   String response = popParser.Transwarp(yytext());
-  if (response=="Y"){
+  if (response.equals("Y")){
     streamReader.write("Y");
   }
 }
@@ -259,14 +259,14 @@ NAME=([A-Za-z0-9"!""-"".""'"" ""*"])+
 
 <YYINITIAL> "Planet command (?=help) [D]" {
   String response = popParser.Landed(yytext());
-  if (response!=""){
+  if (!response.isEmpty()){
     streamReader.write(response);
   }
 }
 
 <YYINITIAL> "The shortest path ("{NUMBER}" hops, "{NUMBER}" turns) from sector "{NUMBER}" to sector "{NUMBER}" is:" {
     String response = popParser.ShortestPath(yytext());
-    if (response!=""){
+    if (!response.isEmpty()){
       streamReader.write(response);
     }
 }
@@ -298,14 +298,14 @@ NAME=([A-Za-z0-9"!""-"".""'"" ""*"])+
 
 <COMMERCEREPORT> "We'll buy them for "{NUMBER}" credits." {
     String counter = tradeParser.parseBuy(yytext());
-    if (counter!=""){
+    if (!counter.isEmpty()){
         streamReader.write(counter+"^\n");
     }
 }
 
 <COMMERCEREPORT> "We'll sell them for "{NUMBER}" credits." {
     String counter = tradeParser.parseSell(yytext());
-    if (counter!=""){
+    if (!counter.isEmpty()){
         streamReader.write(counter+"^\n");
     }
 }
@@ -537,7 +537,7 @@ NAME=([A-Za-z0-9"!""-"".""'"" ""*"])+
 
     statusParser.parseCommandPrompt(yytext());
     String response = popParser.parseCommandPrompt(yytext());
-    if (response!=""){
+    if (!response.isEmpty()){
         streamReader.write(response);
     }
 

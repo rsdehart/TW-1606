@@ -51,7 +51,7 @@ import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.mozilla.javascript.JavaScriptException;
+import org.mozilla.javascript.WrappedException;
 import org.mozilla.javascript.Script;
 import org.mozilla.javascript.ScriptRuntime;
 import org.mozilla.javascript.Scriptable;
@@ -148,20 +148,20 @@ public class JSTW1606u extends ScriptableObject
      * @return an <code>Object</code> value
      * @exception JavaScriptException if an error occurs
      */
-    public void jsFunction_load(String filename) throws JavaScriptException
+    public void jsFunction_load(String filename) throws WrappedException
     {
         org.mozilla.javascript.Context cx =
             org.mozilla.javascript.Context.getCurrentContext();
         try {
             Scriptable scope = getParentScope();
             InputStream in = rm.getResource(filename);
-            Script script = cx.compileReader(scope, new InputStreamReader(in), filename, 1, null);
+            Script script = cx.compileReader(new InputStreamReader(in), filename, 1, null);
             interpreter.exec(script, scope, false);
             in.close();
-        } catch (JavaScriptException e) {
+        } catch (WrappedException e) {
             throw e;
         } catch (Exception e) {
-            throw new JavaScriptException(e);
+            throw new WrappedException(e);
         }
     }
 

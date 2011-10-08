@@ -105,7 +105,7 @@ public class JSDialog extends ScriptableObject {
 
     public void jsFunction_show() {
         dialog.pack();
-        dialog.show();
+        dialog.setVisible(true);
     }
     
     public void jsFunction_dispose() {

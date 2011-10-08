@@ -337,11 +337,11 @@ public class StatusParser extends AbstractParser {
     }
     
     public void parsePlanetPrompt(String line) {
-        session.setPrompt(session.PROMPT_PLANET);
+        session.setPrompt(TWSession.PROMPT_PLANET);
     }
     
     public void parseStardockPrompt(String line) {
-        session.setPrompt(session.PROMPT_STARDOCK);
+        session.setPrompt(TWSession.PROMPT_STARDOCK);
     }
 
     public void parseAutoWarpMove(String line) {
@@ -365,20 +365,24 @@ public class StatusParser extends AbstractParser {
         if (m.find()) {
             Player p = session.getTrader();
             int val = parseInt(line);
-            if ("up".equals(m.group(1))) {
-                p.setAlignment(p.getAlignment() + val);
-            } else {
-                p.setAlignment(p.getAlignment() - val);
+            if(p != null) {
+                if ("up".equals(m.group(1))) {
+                    p.setAlignment(p.getAlignment() + val);
+                } else {
+                    p.setAlignment(p.getAlignment() - val);
+                }
+                playerDao.update(p);
             }
-            playerDao.update(p);
         }
     }
     
     public void parseGainExperience(String line) {
         int exp = parseInt(line);
         Player p = session.getTrader();
-        p.setExperience(p.getExperience()+exp);
-        playerDao.update(p);
+        if(p != null) {
+            p.setExperience(p.getExperience()+exp);
+            playerDao.update(p);
+        }
     }    
     public void parseLoseExperience(String line) {
         int exp = parseInt(line);
@@ -390,8 +394,10 @@ public class StatusParser extends AbstractParser {
     public void parseTurnsLeft(String line) {
         int turns = parseInt(line);
         Player p = session.getTrader();
-        p.setTurns(turns);
-        playerDao.update(p);
+        if (p != null) {
+            p.setTurns(turns);
+            playerDao.update(p);
+        }
     } 
     
     public void parseCommandPrompt(String line) {
@@ -405,7 +411,7 @@ public class StatusParser extends AbstractParser {
             int secId = parseInt(m.group(4), 0);
             Sector s = sectorDao.get(secId, true);
             session.setSector(s);
-            session.setPrompt(session.PROMPT_COMMAND);
+            session.setPrompt(TWSession.PROMPT_COMMAND);
         }
     }
     

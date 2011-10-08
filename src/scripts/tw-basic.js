@@ -5,7 +5,7 @@ function getSectorsInRange(s, range) {
 
 function getShortestPath(start, end) {
     var sg = tw1606u.getBean("sector-graph");
-    return sg.shortestPath(start, end);;
+    return sg.shortestPath(start, end);
 }
 
 function distanceBetweenSectors(start, end) {
