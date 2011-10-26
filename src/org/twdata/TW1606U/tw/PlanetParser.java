@@ -110,12 +110,10 @@ public class PlanetParser extends AbstractParser {
         if (prodPos == 0) {
             ship = session.getTrader().getCurShip();
         }
-        log.debug("PRODUCT DISPLAY GOT " + line);
-        String[] splitLine = line.split("[ ]{2,}");
+/*        String[] splitLine = line.split("[ ]{2,}");
         Matcher m = productPtn.matcher(line);
         for (int i = 1; i < splitLine.length; ++i) {
             int val = parseInt(splitLine[i]);
-            log.debug("CURRENT VAL: " + val + ", PRODPOS = " + prodPos);
             switch (i) {
                 case 1  : if (prodPos != planet.FIGHTERS) {
                             planet.setColonists(prodPos, val);
@@ -144,7 +142,7 @@ public class PlanetParser extends AbstractParser {
             planetTypeDao.update(planetType);
             shipDao.update(ship);
         }
-        prodPos++;
+        prodPos++;*/
     }
     
     private Planet makePlanet(Sector s, String name, int twid) {

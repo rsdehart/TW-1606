@@ -210,10 +210,10 @@
     <property name="session"><ref bean="session" /></property>
   </bean>
 
-  <bean id="parser.planetpop" class="org.twdata.TW1606U.tw.PopulationParser">
+  <!--<bean id="parser.planetpop" class="org.twdata.TW1606U.tw.PopulationParser">
     <property name="daoManager"><ref bean="dao-manager" /></property>
     <property name="session"><ref bean="session" /></property>
-  </bean>
+  </bean>-->
 
  <!--
   <bean id="parser.trigger" class="org.twdata.TW1606U.tw.TriggerParser">

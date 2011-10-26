@@ -149,9 +149,6 @@ public class SectorImpl extends BaseDaoModel implements Sector, Serializable {
         addWarp(sector.getId());
     }
     public void addWarp(int sectorId) {
-        if (id==3063 && sectorId==12185) {
-            id=id;
-        }
         warps = addToArray(warps, sectorId);
         warpsRefs = null;
     }

@@ -1975,7 +1975,7 @@ public class TWLexer implements Lexer {
           }
         case 77: break;
         case 23: 
-          { planetParser.parseProductDisplay(yytext());
+          { //planetParser.parseProductDisplay(yytext());
           }
         case 78: break;
         case 18: 
